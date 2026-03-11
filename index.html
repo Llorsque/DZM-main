@@ -389,6 +389,45 @@
     color:var(--ice-dim); padding:4px 0 2px; border-bottom:1px solid rgba(200,220,240,0.08);
     margin-bottom:4px;
   }
+
+  /* ══ SPORTS DATA STYLES ══ */
+  .afscheid-badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--gold); background: rgba(240,192,64,0.12);
+    border: 1px solid rgba(240,192,64,0.25);
+    border-radius: 4px; padding: 2px 8px; margin-bottom: 5px;
+    font-family: 'Bebas Neue', cursive; font-size: 10px;
+  }
+  .time-val {
+    font-size: 16px !important; font-weight: 600 !important;
+    letter-spacing: 1px;
+    display: flex; align-items: baseline; gap: 8px;
+  }
+  .time-loc {
+    font-size: 10px; font-weight: 400; color: var(--ice-dim);
+    letter-spacing: 1px; text-transform: uppercase;
+  }
+  .zb-history {
+    display: flex; gap: 6px; margin-top: 4px; flex-wrap: wrap;
+  }
+  .zb-cell {
+    display: flex; flex-direction: column; align-items: center;
+    background: rgba(200,220,240,0.04);
+    border: 1px solid rgba(200,220,240,0.08);
+    border-radius: 6px; padding: 4px 8px; min-width: 44px;
+  }
+  .zb-cell.has-result {
+    background: rgba(74,142,202,0.12);
+    border-color: rgba(74,142,202,0.25);
+  }
+  .zb-yr { font-size: 8.5px; color: var(--ice-dim); letter-spacing: 1px; margin-bottom: 2px; }
+  .zb-val {
+    font-family: 'Bebas Neue', cursive; font-size: 16px;
+    color: rgba(200,220,240,0.25); letter-spacing: 1px; line-height: 1;
+  }
+  .zb-cell.has-result .zb-val { color: var(--gold); }
+
 </style>
 </head>
 <body>
@@ -501,8 +540,66 @@ const DEELNEMERS = {
   ]
 };
 
-// Per-deelnemer extra info (wordt later gevuld na ontvangst data)
-const INFO = {};
+const AFSCHEID = ["Dione Voskamp","Femke Kok","Esther Kiel","Tessa Snoek"];
+
+const INFO = {
+  // ── DAMES ──────────────────────────────────────────────────────────────────
+  "Isabel Grevelt":       { pr100:"10.82", loc100:"Leeuwarden", pr500:"37.46", loc500:"Heerenveen", tus100:"10.55", zb25:"9e", zb24:"—", zb23:"17e", zb22:"18e" },
+  "Anna Boersma":         { pr100:"10.42", loc100:"Leeuwarden", pr500:"37.11", loc500:"SLC",         tus100:"10.37", zb25:"2e", zb24:"3e", zb23:"4e", zb22:"3e" },
+  "Michelle de Jong":     { pr100:"10.52", loc100:"Leeuwarden", pr500:"37.48", loc500:"Calgary",     tus100:"10.62", zb25:"6e", zb24:"—", zb23:"7e", zb22:"7e" },
+  "Dione Voskamp":        { pr100:"10.42", loc100:"Leeuwarden", pr500:"37.51", loc500:"Calgary",     tus100:"10.42", zb25:"3e", zb24:"1e", zb23:"1e", zb22:"1e" },
+  "Amber Duizendstraal":  { pr100:"10.94", loc100:"Leeuwarden", pr500:"38.21", loc500:"Heerenveen", tus100:"10.72", zb25:"12e", zb24:"24e", zb23:"22e", zb22:"—" },
+  "Henny de Vries":       { pr100:"11.08", loc100:"Leeuwarden", pr500:"39.00", loc500:"Heerenveen", tus100:"11.04", zb25:"19e", zb24:"—", zb23:"35e", zb22:"22e" },
+  "Pien Hersman":         { pr100:"10.75", loc100:"Leeuwarden", pr500:"37.76", loc500:"Heerenveen", tus100:"10.67", zb25:"—", zb24:"6e", zb23:"12e", zb22:"—" },
+  "Femke Kok":            { pr100:"10.46", loc100:"Leeuwarden", pr500:"36.09", loc500:"SLC",         tus100:"10.18", zb25:"1e", zb24:"2e", zb23:"2e", zb22:"2e" },
+  "Jenna Larter":         { pr100:"10.81", loc100:"Calgary",    pr500:"38.05", loc500:"SLC",         tus100:"10.68", zb25:"—", zb24:"—", zb23:"—", zb22:"—" },
+  "Ying Chu Chen":        { pr100:"10.51", loc100:"Harbin",     pr500:"37.14", loc500:"Calgary",     tus100:"10.30", zb25:"—", zb24:"—", zb23:"—", zb22:"—" },
+  "Hanna Bíro":           { pr100:"11.10", loc100:"Inzell",     pr500:"38.99", loc500:"Calgary",     tus100:"10.77", zb25:"—", zb24:"—", zb23:"—", zb22:"—" },
+  "Gioya Lancee":         { pr100:"12.64", loc100:"Utrecht",    pr500:"38.97", loc500:"Heerenveen", tus100:"11.01", zb25:"—", zb24:"—", zb23:"—", zb22:"—" },
+  "Amy van der Meer":     { pr100:"11.10", loc100:"Leeuwarden", pr500:"39.76", loc500:"Heerenveen", tus100:"11.04", zb25:"—", zb24:"—", zb23:"25e", zb22:"—" },
+  "Esther Kiel":          { pr100:"11.56", loc100:"Leeuwarden", pr500:"39.74", loc500:"Heerenveen", tus100:"11.16", zb25:"—", zb24:"—", zb23:"—", zb22:"—" },
+  "Tessa Snoek":          { pr100:"11.73", loc100:"Amsterdam",  pr500:"41.62", loc500:"Heerenveen", tus100:"11.59", zb25:"—", zb24:"—", zb23:"—", zb22:"—" },
+  "Myrthe de Boer":       { pr100:"11.25", loc100:"Leeuwarden", pr500:"38.77", loc500:"Heerenveen", tus100:"11.01", zb25:"—", zb24:"—", zb23:"—", zb22:"—" },
+  "Sacha van der Weide":  { pr100:"10.61", loc100:"Leeuwarden", pr500:"38.68", loc500:"Heerenveen", tus100:"10.66", zb25:"10e", zb24:"—", zb23:"5e", zb22:"6e" },
+  "Yasmine Bouaziz":      { pr100:"10.76", loc100:"Leeuwarden", pr500:"39.15", loc500:"Heerenveen", tus100:"10.72", zb25:"11e", zb24:"4e", zb23:"20e", zb22:"—" },
+  "Cerinthe de Jonge":    { pr100:"11.16", loc100:"Heerenveen", pr500:"40.85", loc500:"Heerenveen", tus100:"11.23", zb25:"21e", zb24:"15e", zb23:"—", zb22:"—" },
+  "Mara Vergeer":         { pr100:"11.31", loc100:"Den Haag",   pr500:"41.05", loc500:"Heerenveen", tus100:"11.28", zb25:"—", zb24:"—", zb23:"—", zb22:"—" },
+  "Marika de Glee":       { pr100:"11.28", loc100:"Den Haag",   pr500:"39.99", loc500:"Heerenveen", tus100:"11.15", zb25:"—", zb24:"—", zb23:"—", zb22:"—" },
+  "Jasmijn ter Haar":     { pr100:"10.91", loc100:"Heerenveen", pr500:"39.91", loc500:"Heerenveen", tus100:"10.99", zb25:"—", zb24:"21e", zb23:"34e", zb22:"—" },
+  "Jade Kamps":           { pr100:"11.27", loc100:"Alkmaar",    pr500:"40.78", loc500:"Heerenveen", tus100:"11.40", zb25:"—", zb24:"—", zb23:"—", zb22:"—" },
+  "Daphne van Kooten":    { pr100:"11.31", loc100:"Den Haag",   pr500:"41.94", loc500:"Enschede",   tus100:"11.18", zb25:"—", zb24:"—", zb23:"—", zb22:"—" },
+  "Tessa Boogaard":       { pr100:"10.99", loc100:"Leeuwarden", pr500:"38.78", loc500:"Heerenveen", tus100:"10.94", zb25:"—", zb24:"—", zb23:"—", zb22:"24e" },
+  "Elanne de Vries":      { pr100:"11.14", loc100:"Heerenveen", pr500:"39.38", loc500:"Heerenveen", tus100:"11.00", zb25:"17e", zb24:"—", zb23:"—", zb22:"—" },
+  // ── HEREN ──────────────────────────────────────────────────────────────────
+  "Stefan Westenbroek":   { pr100:"9.62", loc100:"Leeuwarden", pr500:"34.39", loc500:"SLC",         tus100:"9.59", zb25:"6e", zb24:"3e", zb23:"5e", zb22:"4e" },
+  "Mika van Essen":       { pr100:"9.98", loc100:"Deventer",   pr500:"35.25", loc500:"Heerenveen", tus100:"9.90", zb25:"23e", zb24:"—", zb23:"16e", zb22:"—" },
+  "Johan Talsma":         { pr100:"9.78", loc100:"Leeuwarden", pr500:"34.83", loc500:"Heerenveen", tus100:"9.66", zb25:"9e", zb24:"9e", zb23:"21e", zb22:"11e" },
+  "Jim Dhore":            { pr100:"9.64", loc100:"Leeuwarden", pr500:"35.79", loc500:"Heerenveen", tus100:"9.73", zb25:"18e", zb24:"1e", zb23:"4e", zb22:"6e" },
+  "Willem Bekkema":       { pr100:"9.89", loc100:"Heerenveen", pr500:"36.14", loc500:"Heerenveen", tus100:"9.94", zb25:"—", zb24:"—", zb23:"26e", zb22:"—" },
+  "Niklas Reinders":      { pr100:"10.15", loc100:"Heerenveen", pr500:"35.62", loc500:"Heerenveen",tus100:"10.08", zb25:"—", zb24:"—", zb23:"—", zb22:"—" },
+  "Ted Dalrymple":        { pr100:"11.62", loc100:"Den Haag",   pr500:"35.49", loc500:"Heerenveen", tus100:"9.99", zb25:"—", zb24:"—", zb23:"—", zb22:"—" },
+  "Sven Kemp":            { pr100:"10.00", loc100:"Heerenveen", pr500:"35.09", loc500:"Heerenveen", tus100:"9.91", zb25:"17e", zb24:"12e", zb23:"23e", zb22:"—" },
+  "Yuma Murakami":        { pr100:"9.46", loc100:"Leeuwarden", pr500:"33.89", loc500:"Calgary",     tus100:"9.49", zb25:"—", zb24:"—", zb23:"1e", zb22:"—" },
+  "Bjørn Magnussen":      { pr100:"9.72", loc100:"Leeuwarden", pr500:"33.99", loc500:"SLC",         tus100:"9.60", zb25:"5e", zb24:"6e", zb23:"8e", zb22:"1e" },
+  "Henrik Fagerli Rukke": { pr100:"9.82", loc100:"Leeuwarden", pr500:"34.47", loc500:"SLC",         tus100:"9.74", zb25:"—", zb24:"—", zb23:"7e", zb22:"7e" },
+  "Jordan Stolz":         { pr100:"9.54", loc100:"Leeuwarden", pr500:"33.69", loc500:"Calgary",     tus100:"9.45", zb25:"3e", zb24:"2e", zb23:"3e", zb22:"—" },
+  "Yevgeniy Koshkin":     { pr100:"9.31", loc100:"Astana",     pr500:"33.67", loc500:"SLC",         tus100:"9.38", zb25:"1e", zb24:"—", zb23:"2e", zb22:"—" },
+  "Ignaz Gschwenter":     { pr100:"10.05", loc100:"Leeuwarden", pr500:"35.20", loc500:"SLC",        tus100:"9.84", zb25:"—", zb24:"—", zb23:"—", zb22:"12e" },
+  "Max Bergsma":          { pr100:"10.03", loc100:"Leeuwarden", pr500:"35.67", loc500:"Heerenveen", tus100:"9.97", zb25:"—", zb24:"14e", zb23:"—", zb22:"—" },
+  "Mats van den Bos":     { pr100:"9.85", loc100:"Leeuwarden", pr500:"34.58", loc500:"Heerenveen",  tus100:"9.65", zb25:"12e", zb24:"13e", zb23:"—", zb22:"26e" },
+  "Jasper Sinke":         { pr100:"9.95", loc100:"Leeuwarden", pr500:"35.93", loc500:"Heerenveen",  tus100:"9.97", zb25:"—", zb24:"24e", zb23:"—", zb22:"—" },
+  "Pim Stuij":            { pr100:"10.08", loc100:"Tilburg",   pr500:"35.47", loc500:"Heerenveen",  tus100:"9.99", zb25:"22e", zb24:"20e", zb23:"31e", zb22:"21e" },
+  "Remon Tamminga":       { pr100:"10.25", loc100:"Tilburg",   pr500:"37.14", loc500:"Heerenveen",  tus100:"10.24", zb25:"—", zb24:"—", zb23:"—", zb22:"—" },
+  "Seb van Schelven":     { pr100:"10.16", loc100:"Tilburg",   pr500:"37.36", loc500:"Heerenveen",  tus100:"10.22", zb25:"—", zb24:"—", zb23:"—", zb22:"—" },
+  "Daan van Zwienen":     { pr100:"10.04", loc100:"Heerenveen", pr500:"36.63", loc500:"Heerenveen", tus100:"10.09", zb25:"—", zb24:"22e", zb23:"—", zb22:"—" },
+  "Hannes van De Wetering":{ pr100:"10.23", loc100:"Den Haag", pr500:"37.50", loc500:"Enschede",    tus100:"10.22", zb25:"—", zb24:"—", zb23:"—", zb22:"—" },
+  "Bjarne den Besten":    { pr100:"10.52", loc100:"Den Haag",  pr500:"38.25", loc500:"Heerenveen",  tus100:"10.60", zb25:"—", zb24:"—", zb23:"—", zb22:"—" },
+  "Floris Hardeveld":     { pr100:"9.90", loc100:"Tilburg",    pr500:"37.20", loc500:"Heerenveen",  tus100:"10.10", zb25:"21e", zb24:"—", zb23:"—", zb22:"—" },
+  "Floris van Hardeveld": { pr100:"9.90", loc100:"Tilburg",    pr500:"37.20", loc500:"Heerenveen",  tus100:"10.10", zb25:"21e", zb24:"—", zb23:"—", zb22:"—" },
+  "Janno Botman":         { pr100:"9.70", loc100:"Leeuwarden", pr500:"34.35", loc500:"SLC",         tus100:"9.66", zb25:"7e", zb24:"4e", zb23:"6e", zb22:"—" },
+  "Jesper van Mieghem":   { pr100:"10.18", loc100:"Leeuwarden", pr500:"35.84", loc500:"Heerenveen", tus100:"10.00", zb25:"20e", zb24:"—", zb23:"—", zb22:"—" },
+  "Roel Regts":           { pr100:"10.11", loc100:"Tilburg",   pr500:"36.65", loc500:"Heerenveen",  tus100:"10.03", zb25:"19e", zb24:"—", zb23:"—", zb22:"—" },
+};
 function getInfo(naam) {
   const n = s => s.trim().toLowerCase().replace(/\s+/g,' ');
   const nm = n(naam);
@@ -541,49 +638,69 @@ function getSL() { return startlijsten[gender]; }
 const bc = b => b ? b.toLowerCase() : 'wit';
 const baanMap = { Wit:'BINNEN · WIT', Rood:'MIDDEN · ROOD', Geel:'BUITEN · GEEL' };
 const BAANEN = ['Wit','Rood','Geel'];
-const FIELDS = [
-  ['Leeftijd',         'leeftijd', true ],
-  ['Woonplaats',       'woonplaats',false],
-  ["Hobby's",          'hobbys',  false],
-  ['Groot voorbeeld',  'voorbeeld',true ],
-  ['Prijzen & winsten','prijzen',  false],
-  ['Mooiste moment',   'moment',  false],
-  ['Leuk weetje',      'weetje',  true ],
-];
+// Fields not used directly — see riderColHTML for custom layout
 
 function riderColHTML(naam, baanIdx) {
   const baan = BAANEN[baanIdx];
   const cls = bc(baan);
   const info = naam ? getInfo(naam) : null;
+  const isAfscheid = naam && AFSCHEID.some(n => naam.toLowerCase().includes(n.toLowerCase()));
   let nameHTML, bodyHTML;
 
   if (!naam) {
     nameHTML = `<div class="rider-name-full empty-slot">Nog niet ingevuld</div>`;
     bodyHTML = '';
   } else {
-    nameHTML = `<div class="rider-name-full">${naam}</div>`;
+    const afscheidBadge = isAfscheid
+      ? `<div class="afscheid-badge">⭐ LAATSTE ZILVEREN BAL</div>`
+      : '';
+    nameHTML = `${afscheidBadge}<div class="rider-name-full">${naam}</div>`;
     if (info) {
-      bodyHTML = `<div class="info-list">` +
-        FIELDS.map(([lbl, key, hi]) => info[key] ?
-          `<div class="info-item">
-            <div class="info-lbl">${lbl}</div>
-            <div class="info-val${hi?' hi':''}">${info[key]}</div>
-          </div>` : ''
-        ).join('') +
-        `</div>`;
+      // ZB history — only show years with results
+      const zbItems = [
+        { yr:'2025', val:info.zb25 },
+        { yr:'2024', val:info.zb24 },
+        { yr:'2023', val:info.zb23 },
+        { yr:'2022', val:info.zb22 },
+      ];
+      const zbRow = zbItems.map(z =>
+        `<div class="zb-cell ${z.val!=='—'?'has-result':''}">
+          <div class="zb-yr">${z.yr}</div>
+          <div class="zb-val">${z.val}</div>
+        </div>`
+      ).join('');
+
+      bodyHTML = `<div class="info-list">
+        <div class="info-item">
+          <div class="info-lbl">100m PR</div>
+          <div class="info-val hi time-val">${info.pr100}<span class="time-loc">${info.loc100}</span></div>
+        </div>
+        <div class="info-item">
+          <div class="info-lbl">500m PR</div>
+          <div class="info-val hi time-val">${info.pr500}<span class="time-loc">${info.loc500}</span></div>
+        </div>
+        <div class="info-item">
+          <div class="info-lbl">Opening 100m (in 500m)</div>
+          <div class="info-val">${info.tus100}</div>
+        </div>
+        <div class="info-item">
+          <div class="info-lbl">De Zilveren Bal — historie</div>
+          <div class="zb-history">${zbRow}</div>
+        </div>
+      </div>`;
     } else {
-      bodyHTML = `<div class="no-info">Info volgt na invullen deelnemersformulier</div>`;
+      bodyHTML = `<div class="no-info">Nog geen tijden bekend</div>`;
     }
   }
 
-  return `
+  return \`
     <div class="rider-col">
       <div class="baan-tag">
-        <div class="baan-bar ${cls}"></div>
-        <span class="baan-lbl ${cls}">${baanMap[baan]}</span>
+        <div class="baan-bar \${cls}"></div>
+        <span class="baan-lbl \${cls}">\${baanMap[baan]}</span>
       </div>
-      ${nameHTML}${bodyHTML}
-    </div>`;
+      \${nameHTML}\${bodyHTML}
+    </div>\`;
 }
 
 function cardHTML(rit, isCurrent) {
