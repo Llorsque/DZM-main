@@ -352,7 +352,8 @@ header{display:flex;align-items:center;gap:9px;padding:6px 14px;
 const DEELNEMERS={
   dames:["Isabel Grevelt","Anna Boersma","Michelle de Jong","Dione Voskamp","Amber Duizendstraal","Henny de Vries","Pien Hersman","Femke Kok","Jenna Larter","Ying Chu Chen","Hanna Biro","Gioya Lancee","Amy van der Meer","Esther Kiel","Tessa Snoek","Myrthe de Boer","Sacha van der Weide","Yasmine Bouaziz","Cerinthe de Jonge","Mara Vergeer","Marika de Glee","Jasmijn ter Haar","Jade Kamps","Daphne van Kooten","Tessa Boogaard","Elanne de Vries"],
   heren:["Stefan Westenbroek","Mika van Essen","Johan Talsma","Jim Dhore","Willem Bekkema","Niklas Reinders","Ted Dalrymple","Sven Kemp","Yuma Murakami","Bjorn Magnussen","Henrik Fagerli Rukke","Jordan Stolz","Yevgeniy Koshkin","Ignaz Gschwenter","Max Bergsma","Mats van den Bos","Jasper Sinke","Pim Stuij","Remon Tamminga","Seb van Schelven","Daan van Zwienen","Hannes van De Wetering","Bjarne den Besten","Floris Hardeveld","Janno Botman","Roel Regts","Niels de Kruijk"],
-  div:["Joy","Jenning","Mascotte 1","Mascotte 2","Mascotte 3","Andere deelnemer"]
+  div:["Joy","Jenning","Mascotte 1","Mascotte 2","Mascotte 3","Andere deelnemer"],
+  kids:["Leanne Visser","Romee Hoorn","Ranomi Schaap","Sylvan Radewalt","Stan Westra","Marijn Elling"]
 };
 const AFSCHEID=["Dione Voskamp","Femke Kok","Esther Kiel","Tessa Snoek"];
 const INFO={
@@ -417,7 +418,7 @@ const INFO={
   "Marijn Elling":{kids:true,leeftijd:"11 jaar",schaatsen:"6 jaar",hobbys:"Fietsen en gamen",voorbeeld:"Femke Kok en Jenning de Boo",prijzen:"2x SKA Cup",weetje:"500m mannen Olympische Spelen live in Milaan gezien"}
 };
 function getInfo(n){return INFO[n]||null;}
-const ALLE=()=>[...DEELNEMERS.dames,...DEELNEMERS.heren,...DEELNEMERS.div];
+const ALLE=()=>[...DEELNEMERS.dames,...DEELNEMERS.heren,...DEELNEMERS.div,...DEELNEMERS.kids];
 const SECTIES=[
   {id:'kids',  label:'DZB KIDS - FINALE',       pill:'pill-kids',  dot:'#b8cce0',type:'rit3',pool:'all'},
   {id:'ol1d',  label:'OMLOOP 1 - DAMES',        pill:'pill-ol1d',  dot:'#d060a0',type:'rit3',pool:'dames'},
@@ -614,6 +615,7 @@ function getPoolForSectie(sid){
   const s=gS(sid);
   if(s.pool==='dames')return DEELNEMERS.dames;
   if(s.pool==='heren')return DEELNEMERS.heren;
+  if(sid==='kids')return DEELNEMERS.kids;
   return ALLE();
 }
 function addBlok(sid){
