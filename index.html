@@ -247,6 +247,30 @@ header{display:flex;align-items:center;gap:9px;padding:6px 14px;
 .d-div{width:50px;height:2px;border-radius:2px;background:linear-gradient(90deg,transparent,#6de898,transparent);}
 .d-names{font-family:"Bebas Neue",cursive;font-size:28px;letter-spacing:3px;color:rgba(109,232,152,.92);}
 .d-when{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(109,232,152,.3);margin-top:5px;}
+.extra-info-badge{display:flex;flex-direction:column;padding:3.5px 0;border-bottom:1px solid rgba(200,220,240,.06);margin-top:2px;}
+.extra-info-lbl{font-size:8px;text-transform:uppercase;letter-spacing:1.5px;color:var(--ice-dim);margin-bottom:2px;}
+.extra-info-val{font-size:11px;color:rgba(200,220,240,.75);line-height:1.4;font-style:italic;}
+.ol1tijd-block{display:flex;flex-direction:column;margin-bottom:7px;flex-shrink:0;
+  background:rgba(240,192,64,.07);border:1px solid rgba(240,192,64,.2);border-radius:6px;padding:5px 9px;}
+.ol1tijd-lbl{font-size:8px;text-transform:uppercase;letter-spacing:1.5px;color:rgba(240,192,64,.6);margin-bottom:2px;}
+.ol1tijd-val{font-family:"Bebas Neue",cursive;font-size:22px;color:var(--gold);letter-spacing:2px;line-height:1;}
+.mascot-inp{width:100%;background:rgba(0,0,0,.3);border:1px solid rgba(176,124,252,.2);
+  border-radius:4px;color:rgba(176,124,252,.9);font-size:11px;padding:4px 7px;
+  font-family:"DM Sans",sans-serif;outline:none;transition:border-color .15s;}
+.mascot-inp:focus{border-color:rgba(176,124,252,.5);}
+.mascot-inp::placeholder{color:rgba(176,124,252,.35);}
+.ei-row{display:flex;flex-direction:column;gap:1px;margin-top:3px;}
+.ei-lbl{font-size:7.5px;letter-spacing:1px;color:rgba(180,200,220,.5);text-transform:uppercase;}
+.ei-inp{width:100%;background:rgba(0,0,0,.22);border:1px solid rgba(200,220,240,.12);
+  border-radius:3px;color:rgba(200,220,240,.8);font-size:10px;padding:3px 5px;
+  font-family:"DM Sans",sans-serif;outline:none;transition:border-color .15s;}
+.ei-inp:focus{border-color:rgba(74,142,202,.4);}
+.ol1t-row{display:flex;flex-direction:column;gap:1px;margin-top:3px;}
+.ol1t-lbl{font-size:7.5px;letter-spacing:1px;color:rgba(240,192,64,.5);text-transform:uppercase;}
+.ol1t-inp{width:100%;background:rgba(0,0,0,.22);border:1px solid rgba(240,192,64,.15);
+  border-radius:3px;color:rgba(240,210,100,.9);font-size:10px;padding:3px 5px;
+  font-family:"DM Sans",sans-serif;outline:none;transition:border-color .15s;}
+.ol1t-inp:focus{border-color:rgba(240,192,64,.4);}
 </style>
 </head>
 <body>
@@ -384,7 +408,13 @@ const INFO={
   "Floris Hardeveld":{pr100:"9.90",loc100:"Tilburg",pr500:"37.20",loc500:"Heerenveen",tus100:"10.10",zb25:"21e",zb24:"-",zb23:"-",zb22:"-"},
   "Janno Botman":{pr100:"9.70",loc100:"Leeuwarden",pr500:"34.35",loc500:"SLC",tus100:"9.66",zb25:"7e",zb24:"4e",zb23:"6e",zb22:"-"},
   "Roel Regts":{pr100:"10.11",loc100:"Tilburg",pr500:"36.65",loc500:"Heerenveen",tus100:"10.03",zb25:"19e",zb24:"-",zb23:"-",zb22:"-"},
-  "Niels de Kruijk":{pr100:"10.15",loc100:"Heerenveen",pr500:"36.80",loc500:"Heerenveen",tus100:"10.08",zb25:"-",zb24:"-",zb23:"-",zb22:"-"}
+  "Niels de Kruijk":{pr100:"10.15",loc100:"Heerenveen",pr500:"36.80",loc500:"Heerenveen",tus100:"10.08",zb25:"-",zb24:"-",zb23:"-",zb22:"-"},
+  "Leanne Visser":{kids:true,leeftijd:"11 jaar",schaatsen:"5 jaar",hobbys:"Creatief tekenen en lezen",voorbeeld:"Femke Kok",prijzen:"Clubkampioen, SKA Zilveren Bal 2024",weetje:"Jordan Stolz kwam op onze training kijken en wij gingen met hem op de foto"},
+  "Romee Hoorn":{kids:true,leeftijd:"11 jaar",schaatsen:"3 jaar",hobbys:"Trampoline springen, skeeleren en afspreken met vrienden",voorbeeld:"Jenning de Boo en Jutta Leerdam",prijzen:"Ja",weetje:"Ik kijk graag TikTok"},
+  "Ranomi Schaap":{kids:true,leeftijd:"12 jaar",schaatsen:"5 jaar",hobbys:"Wielrennen, skeeleren en afspreken met vriendinnen",voorbeeld:"Joy Beune en Femke Kok",prijzen:"3e finale Zilveren Bal vorig jaar, diverse marathonpodiums",weetje:"Ik word vaak derde bij een wedstrijd"},
+  "Sylvan Radewalt":{kids:true,leeftijd:"11 jaar",schaatsen:"4 jaar",hobbys:"Skeeleren en vissen",voorbeeld:"Jenning de Boo",prijzen:"SKA Cup, Zilveren Bal, marathoncompetitie, Friesland Cup",weetje:"Ik heb schaatsen van mijn pake"},
+  "Stan Westra":{kids:true,leeftijd:"10 jaar",schaatsen:"5 jaar (zolang SKA bestaat)",hobbys:"Voetbal en kaatsen",voorbeeld:"Jenning de Boo en Femke Kok",prijzen:"SKA Cup: 2x 1e, 2x 2e, 1x 3e",weetje:"Ik stond ooit in een reclamefolder van Gamma voor het NK schaatsen"},
+  "Marijn Elling":{kids:true,leeftijd:"11 jaar",schaatsen:"6 jaar",hobbys:"Fietsen en gamen",voorbeeld:"Femke Kok en Jenning de Boo",prijzen:"2x SKA Cup",weetje:"500m mannen Olympische Spelen live in Milaan gezien"}
 };
 function getInfo(n){return INFO[n]||null;}
 const ALLE=()=>[...DEELNEMERS.dames,...DEELNEMERS.heren,...DEELNEMERS.div];
@@ -406,8 +436,10 @@ const gS=id=>SECTIES.find(s=>s.id===id);
 
 function loadProgramma(){
   try{const r=localStorage.getItem('dzb_main_p3');if(r)return JSON.parse(r);}catch(e){}
-  return [{sectieId:'kids',riders:[null,null,null],battleInfo:[]},
-          {sectieId:'kids',riders:[null,null,null],battleInfo:[]}];
+  return [
+    {sectieId:'kids',riders:['Leanne Visser','Romee Hoorn','Ranomi Schaap'],battleInfo:[]},
+    {sectieId:'kids',riders:['Sylvan Radewalt','Stan Westra','Marijn Elling'],battleInfo:[]}
+  ];
 }
 function saveProgramma(){localStorage.setItem('dzb_main_p3',JSON.stringify(programma));}
 let programma=loadProgramma(),cur=0;
@@ -419,6 +451,15 @@ function riderInfoHTML(naam){
   const isAf=naam&&AFSCHEID.some(n=>naam.toLowerCase().includes(n.toLowerCase()));
   let h=isAf?'<div class="afscheid-badge">LAATSTE ZILVEREN BAL</div>':'';
   if(!info)return h+'<div class="no-info">Info volgt</div>';
+  if(info.kids){
+    return h+'<div class="info-list">'
+      +'<div class="info-item"><div class="info-lbl">Leeftijd</div><div class="info-val">'+info.leeftijd+'</div></div>'
+      +'<div class="info-item"><div class="info-lbl">Schaatst al</div><div class="info-val">'+info.schaatsen+'</div></div>'
+      +'<div class="info-item"><div class="info-lbl">Voorbeeld</div><div class="info-val hi">'+info.voorbeeld+'</div></div>'
+      +'<div class="info-item"><div class="info-lbl">Prijzen</div><div class="info-val">'+info.prijzen+'</div></div>'
+      +'<div class="info-item"><div class="info-lbl">Leuk weetje</div><div class="info-val">'+info.weetje+'</div></div>'
+      +'</div>';
+  }
   const zb=[{yr:'2025',v:info.zb25},{yr:'2024',v:info.zb24},{yr:'2023',v:info.zb23},{yr:'2022',v:info.zb22}];
   const zbH=zb.map(z=>'<div class="zb-cell'+(z.v!='-'?' has-result':'')+'"><div class="zb-yr">'+z.yr+'</div><div class="zb-val">'+z.v+'</div></div>').join('');
   return h+'<div class="info-list">'
@@ -429,11 +470,13 @@ function riderInfoHTML(naam){
     +'</div>';
 }
 
-function colRit3(naam,bi){
+function colRit3(naam,bi,extraInfo,ol1tijd){
   const b=BD[bi],cls=b.toLowerCase();
+  const ol1H=ol1tijd?'<div class="ol1tijd-block"><div class="ol1tijd-lbl">Omloop 1 tijd</div><div class="ol1tijd-val">'+ol1tijd+'</div></div>':'';
+  const eiH=extraInfo?'<div class="extra-info-badge"><div class="extra-info-lbl">Info</div><div class="extra-info-val">'+extraInfo+'</div></div>':'';
   return '<div class="rider-col">'
     +'<div class="baan-tag"><div class="baan-bar '+cls+'"></div><span class="baan-lbl '+cls+'">'+BM[b]+'</span></div>'
-    +(naam?'<div class="rider-name">'+naam+'</div>'+riderInfoHTML(naam):'<div class="rider-name empty">Nog niet ingevuld</div>')
+    +(naam?'<div class="rider-name">'+naam+'</div>'+ol1H+riderInfoHTML(naam)+eiH:'<div class="rider-name empty">Nog niet ingevuld</div>')
     +'</div>';
 }
 
@@ -447,10 +490,11 @@ function colBattle(naam,bi){
     +'</div>';
 }
 
-function colJoy(naam){
+function colJoy(naam,extraInfo){
+  const eiH=extraInfo?'<div class="extra-info-badge"><div class="extra-info-lbl">Info</div><div class="extra-info-val">'+extraInfo+'</div></div>':'';
   return '<div class="rider-col">'
     +'<div class="joy-dist-badge"><div class="joy-dist-num">3KM</div><div class="joy-dist-lbl">afstandsrit</div></div>'
-    +(naam?'<div class="rider-name" style="font-size:22px">'+naam+'</div>'+riderInfoHTML(naam):'<div class="rider-name empty">Nog niet ingevuld</div>')
+    +(naam?'<div class="rider-name" style="font-size:22px">'+naam+'</div>'+riderInfoHTML(naam)+eiH:'<div class="rider-name empty">Nog niet ingevuld</div>')
     +'</div>';
 }
 
@@ -458,11 +502,14 @@ function cardHTML(blok,isCurrent){
   const s=gS(blok.sectieId),seqNr=programma.indexOf(blok)+1;
   let body='';
   if(s.type=='rit2'){
-    body='<div class="card-body">'+colJoy(blok.riders[0])+colJoy(blok.riders[1])+'</div>';
+    const ej=blok.extraInfo||[];
+    body='<div class="card-body">'+colJoy(blok.riders[0],ej[0])+colJoy(blok.riders[1],ej[1])+'</div>';
   } else if(s.type=='battle'){
     body='<div class="card-body">'+blok.riders.map((n,i)=>colBattle(n,(blok.battleInfo||[])[i])).join('')+'</div>';
   } else {
-    body='<div class="card-body">'+[0,1,2].map(i=>colRit3(blok.riders[i],i)).join('')+'</div>';
+    const ei=blok.extraInfo||[];
+    const ot=blok.ol1tijden||[];
+    body='<div class="card-body">'+[0,1,2].map(i=>colRit3(blok.riders[i],i,ei[i],ot[i])).join('')+'</div>';
   }
   return '<div class="rit-card'+(isCurrent?' current':'')+'"><div class="card-header">'
     +'<div class="card-rit-num">'+seqNr+'</div>'
@@ -573,7 +620,9 @@ function addBlok(sid){
   const s=gS(sid);
   const slots=s.type==='rit2'?2:3;
   const nb={sectieId:sid,riders:Array(slots).fill(null),
-    battleInfo:sid==='battle'?Array(slots).fill({sport:'',info:''}):[]};
+    battleInfo:sid==='battle'?Array(slots).fill({sport:'',info:''}):[]
+    ,extraInfo:Array(slots).fill(null)
+    ,ol1tijden:Array(slots).fill(null)};
   let lastIdx=-1;
   edProg.forEach((b,i)=>{if(b.sectieId===sid)lastIdx=i;});
   if(lastIdx>=0)edProg.splice(lastIdx+1,0,nb);
@@ -587,41 +636,82 @@ function setBattleInfo(bi,si,field,val){
   if(!edProg[bi].battleInfo[si])edProg[bi].battleInfo[si]={};
   edProg[bi].battleInfo[si][field]=val;
 }
+function setExtraInfo(bi,si,val){
+  if(!edProg[bi].extraInfo)edProg[bi].extraInfo=[];
+  edProg[bi].extraInfo[si]=val||null;
+}
+function setOl1Tijd(bi,si,val){
+  if(!edProg[bi].ol1tijden)edProg[bi].ol1tijden=[];
+  edProg[bi].ol1tijden[si]=val||null;
+}
+function setMascotNaam(bi,si,val){
+  edProg[bi].riders[si]=val||null;
+  renderPoolList();
+}
 function renderEditorContent(){
   let html='';
   SECTIES.forEach(sectie=>{
     const blokkens=edProg.map((b,i)=>({b,i})).filter(x=>x.b.sectieId===sectie.id);
     html+='<div class="ed-sectie-hdr" style="color:'+sectie.dot+'">'
       +'<div class="ed-sectie-dot" style="background:'+sectie.dot+'"></div>'+sectie.label+'</div>';
+    const isMascot=sectie.id==='mascot';
+    const isOl2=sectie.id==='ol2d'||sectie.id==='ol2h';
     blokkens.forEach(function(x){
       const b=x.b,i=x.i;
       const pool=getPoolForSectie(sectie.id);
+      const ei=b.extraInfo||[];
+      const ot=b.ol1tijden||[];
       let slotsH='';
       if(sectie.type==='battle'){
         slotsH=[0,1,2].map(function(si){
-          const bi=b.battleInfo&&b.battleInfo[si]?b.battleInfo[si]:{sport:'',info:''};
+          const binfo=b.battleInfo&&b.battleInfo[si]?b.battleInfo[si]:{sport:'',info:''};
+          const eiVal=ei[si]||'';
           const opts='<option value="">leeg</option>'+ALLE().map(n=>'<option value="'+n+'"'+(b.riders[si]===n?' selected':'')+'>'+n+'</option>').join('');
           return '<div class="ed-slot" style="min-width:130px">'
             +'<div class="slot-lbl"><span style="color:var(--c-battle)">RIJDER '+(si+1)+'</span></div>'
             +'<select class="slot-sel" style="border-color:rgba(240,112,64,.2)" onchange="setRider('+i+','+si+',this.value)">'+opts+'</select>'
             +'<div class="bi-row"><div class="bi-lbl">Discipline</div>'
-            +'<input class="bi-inp" type="text" placeholder="bijv. Wielrennen" value="'+(bi.sport||'')+'" oninput="setBattleInfo('+i+','+si+',\'sport\',this.value)"/></div>'
+            +'<input class="bi-inp" type="text" placeholder="bijv. Wielrennen" value="'+(binfo.sport||'')+'" oninput="setBattleInfo('+i+','+si+',\'sport\',this.value)"/></div>'
             +'<div class="bi-row"><div class="bi-lbl">Info</div>'
-            +'<input class="bi-inp" type="text" placeholder="extra info" value="'+(bi.info||'')+'" oninput="setBattleInfo('+i+','+si+',\'info\',this.value)"/></div>'
+            +'<input class="bi-inp" type="text" placeholder="extra info" value="'+(binfo.info||'')+'" oninput="setBattleInfo('+i+','+si+',\'info\',this.value)"/></div>'
+            +'<div class="ei-row"><div class="ei-lbl">Extra opmerking</div>'
+            +'<input class="ei-inp" type="text" placeholder="optioneel" value="'+eiVal+'" oninput="setExtraInfo('+i+','+si+',this.value)"/></div>'
             +'</div>';
         }).join('');
       } else if(sectie.type==='rit2'){
         slotsH=[0,1].map(function(si){
+          const eiVal=ei[si]||'';
           const opts='<option value="">leeg</option>'+ALLE().map(n=>'<option value="'+n+'"'+(b.riders[si]===n?' selected':'')+'>'+n+'</option>').join('');
           return '<div class="ed-slot"><div class="slot-lbl"><span style="color:var(--c-joy)">RIJDER '+(si+1)+'</span></div>'
-            +'<select class="slot-sel" style="border-color:rgba(56,192,96,.2)" onchange="setRider('+i+','+si+',this.value)">'+opts+'</select></div>';
+            +'<select class="slot-sel" style="border-color:rgba(56,192,96,.2)" onchange="setRider('+i+','+si+',this.value)">'+opts+'</select>'
+            +'<div class="ei-row"><div class="ei-lbl">Extra opmerking</div>'
+            +'<input class="ei-inp" type="text" placeholder="optioneel" value="'+eiVal+'" oninput="setExtraInfo('+i+','+si+',this.value)"/></div>'
+            +'</div>';
+        }).join('');
+      } else if(isMascot){
+        const baanDefs=[{cls:'wit',lbl:'WIT'},{cls:'geel',lbl:'GEEL'},{cls:'rood',lbl:'ROOD'}];
+        slotsH=baanDefs.map(function(bd,si){
+          const cur=b.riders[si]||'';
+          const eiVal=ei[si]||'';
+          return '<div class="ed-slot"><div class="slot-lbl"><div class="sd '+bd.cls+'"></div><span class="st-'+bd.cls+'">'+bd.lbl+'</span></div>'
+            +'<input class="mascot-inp" type="text" placeholder="Naam mascotte..." value="'+cur+'" oninput="setMascotNaam('+i+','+si+',this.value)"/>'
+            +'<div class="ei-row"><div class="ei-lbl">Extra opmerking</div>'
+            +'<input class="ei-inp" type="text" placeholder="optioneel" value="'+eiVal+'" oninput="setExtraInfo('+i+','+si+',this.value)"/></div>'
+            +'</div>';
         }).join('');
       } else {
         const baanDefs=[{cls:'wit',lbl:'WIT'},{cls:'geel',lbl:'GEEL'},{cls:'rood',lbl:'ROOD'}];
         slotsH=baanDefs.map(function(bd,si){
           const opts='<option value="">leeg</option>'+pool.map(n=>'<option value="'+n+'"'+(b.riders[si]===n?' selected':'')+'>'+n+'</option>').join('');
+          const eiVal=ei[si]||'';
+          const otVal=ot[si]||'';
           return '<div class="ed-slot"><div class="slot-lbl"><div class="sd '+bd.cls+'"></div><span class="st-'+bd.cls+'">'+bd.lbl+'</span></div>'
-            +'<select class="slot-sel" onchange="setRider('+i+','+si+',this.value)">'+opts+'</select></div>';
+            +'<select class="slot-sel" onchange="setRider('+i+','+si+',this.value)">'+opts+'</select>'
+            +(isOl2?'<div class="ol1t-row"><div class="ol1t-lbl">Omloop 1 tijd</div>'
+              +'<input class="ol1t-inp" type="text" placeholder="bijv. 10.42" value="'+otVal+'" oninput="setOl1Tijd('+i+','+si+',this.value)"/></div>':'')
+            +'<div class="ei-row"><div class="ei-lbl">Extra opmerking</div>'
+            +'<input class="ei-inp" type="text" placeholder="optioneel" value="'+eiVal+'" oninput="setExtraInfo('+i+','+si+',this.value)"/></div>'
+            +'</div>';
         }).join('');
       }
       html+='<div class="ed-rit-row"><div class="ed-rit-num">'+(i+1)+'</div>'
