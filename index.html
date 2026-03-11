@@ -637,7 +637,7 @@ function getSL() { return startlijsten[gender]; }
 // ══ VIEW RENDERING ════════════════════════════════════════════════════════════
 const bc = b => b ? b.toLowerCase() : 'wit';
 const baanMap = { Wit:'BINNEN · WIT', Rood:'MIDDEN · ROOD', Geel:'BUITEN · GEEL' };
-const BAANEN = ['Wit','Rood','Geel'];
+const BAANEN = ['Wit','Geel','Rood']; // Display: binnen → buiten → midden (links→rechts)
 // Fields not used directly — see riderColHTML for custom layout
 
 function riderColHTML(naam, baanIdx) {
