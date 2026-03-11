@@ -428,6 +428,101 @@
   }
   .zb-cell.has-result .zb-val { color: var(--gold); }
 
+
+  /* ══ AANKONDIGING KNOPPEN ══ */
+  .aankondiging-btn {
+    padding: 5px 12px; border-radius: 7px; cursor: pointer;
+    font-family: 'Bebas Neue', cursive; font-size: 12px; letter-spacing: 2px;
+    border: 1px solid; transition: all 0.15s; white-space: nowrap; margin-left: 4px;
+  }
+  .aankondiging-btn.battle {
+    background: rgba(232,80,40,0.14); border-color: rgba(232,80,40,0.32); color: #f08060;
+  }
+  .aankondiging-btn.battle:hover { background: rgba(232,80,40,0.26); }
+  .aankondiging-btn.driekm {
+    background: rgba(56,192,96,0.14); border-color: rgba(56,192,96,0.32); color: #6de898;
+  }
+  .aankondiging-btn.driekm:hover { background: rgba(56,192,96,0.26); }
+
+  /* ══ AANKONDIGING OVERLAY ══ */
+  .aankondiging-overlay {
+    display: none; position: fixed; inset: 0; z-index: 300;
+    background: rgba(3,8,18,0.92); backdrop-filter: blur(8px);
+    align-items: center; justify-content: center; cursor: pointer;
+  }
+  .aankondiging-overlay.open { display: flex; }
+
+  .aankondiging-card {
+    border-radius: 20px; padding: 0; overflow: hidden;
+    max-width: 820px; width: 92vw;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.7);
+    cursor: default; position: relative;
+    border: 1px solid rgba(200,220,240,0.12);
+  }
+  .aankondiging-inner {
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: center; gap: 16px; padding: 52px 48px 40px;
+    text-align: center;
+  }
+  .aankondiging-close {
+    padding: 12px; text-align: center;
+    font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+    color: rgba(200,220,240,0.28); border-top: 1px solid rgba(200,220,240,0.08);
+    background: rgba(0,0,0,0.2);
+  }
+
+  /* BATTLE */
+  .battle-card { background: linear-gradient(145deg, #1a0a08, #2a0e06, #1a0a08); }
+  .battle-emoji { font-size: 72px; line-height: 1; }
+  .battle-title {
+    font-family: 'Bebas Neue', cursive; font-size: 64px; letter-spacing: 6px;
+    color: #f08060; line-height: 1;
+    text-shadow: 0 0 40px rgba(232,80,40,0.5);
+  }
+  .battle-subtitle {
+    font-family: 'Bebas Neue', cursive; font-size: 22px; letter-spacing: 4px;
+    color: rgba(240,180,150,0.7);
+  }
+  .battle-divider {
+    width: 60px; height: 2px; border-radius: 2px;
+    background: linear-gradient(90deg, transparent, #f08060, transparent);
+    margin: 4px 0;
+  }
+  .battle-names {
+    font-family: 'Bebas Neue', cursive; font-size: 28px; letter-spacing: 3px;
+    color: rgba(240,180,150,0.9); line-height: 1.5;
+  }
+  .battle-when {
+    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+    color: rgba(240,180,150,0.4); margin-top: 8px;
+  }
+
+  /* 3KM */
+  .driekm-card { background: linear-gradient(145deg, #071a0e, #0a2012, #071a0e); }
+  .driekm-emoji { font-size: 72px; line-height: 1; }
+  .driekm-dist {
+    font-family: 'Bebas Neue', cursive; font-size: 100px; letter-spacing: 4px;
+    color: #6de898; line-height: 0.9;
+    text-shadow: 0 0 50px rgba(56,192,96,0.45);
+  }
+  .driekm-label {
+    font-family: 'Bebas Neue', cursive; font-size: 20px; letter-spacing: 6px;
+    color: rgba(109,232,152,0.55); margin-top: -8px;
+  }
+  .driekm-divider {
+    width: 60px; height: 2px; border-radius: 2px;
+    background: linear-gradient(90deg, transparent, #6de898, transparent);
+    margin: 8px 0;
+  }
+  .driekm-names {
+    font-family: 'Bebas Neue', cursive; font-size: 32px; letter-spacing: 3px;
+    color: rgba(109,232,152,0.95); line-height: 1.4;
+  }
+  .driekm-when {
+    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+    color: rgba(109,232,152,0.35); margin-top: 8px;
+  }
+
 </style>
 </head>
 <body>
@@ -450,6 +545,8 @@
     <button class="mode-btn active" id="btnView" onclick="setMode('view')">PRESENTATIE</button>
     <button class="mode-btn" id="btnEdit" onclick="setMode('edit')">STARTLIJST INVULLEN</button>
   </div>
+  <button class="aankondiging-btn battle" onclick="openAankondiging('battle')">⚔️ BATTLE</button>
+  <button class="aankondiging-btn driekm" onclick="openAankondiging('driekm')">🏁 3KM</button>
 
   <div class="header-nav">
     <span class="nav-hint">RIT</span>
@@ -931,6 +1028,46 @@ function renderEditor() {
 // ══ ZOOM ══════════════════════════════════════════════════════════════════════
 let zoomLevel = parseInt(localStorage.getItem('dzb_zoom') || '100');
 const ZP = [{id:'zp-s',val:75},{id:'zp-m',val:90},{id:'zp-l',val:100}];
+// ── AANKONDIGINGEN ───────────────────────────────────────────────────────────
+const AANKONDIGINGEN = {
+  battle: {
+    cardClass: 'battle-card',
+    html: `
+      <div class="battle-emoji">⚔️</div>
+      <div class="battle-title">BATTLE OF<br>DISCIPLINES</div>
+      <div class="battle-divider"></div>
+      <div class="battle-subtitle">Na omloop 1</div>
+      <div class="battle-when">PROGRAMMA TUSSENDOOR</div>
+    `
+  },
+  driekm: {
+    cardClass: 'driekm-card',
+    html: `
+      <div class="driekm-emoji">🏁</div>
+      <div class="driekm-dist">3KM</div>
+      <div class="driekm-label">AFSTANDSRIT</div>
+      <div class="driekm-divider"></div>
+      <div class="driekm-names">Jenning & Joy</div>
+      <div class="driekm-when">Na omloop 2</div>
+    `
+  },
+};
+
+function openAankondiging(type) {
+  const a = AANKONDIGINGEN[type];
+  const card = document.getElementById('aankondigingCard');
+  const inner = document.getElementById('aankondigingInner');
+  card.className = 'aankondiging-card ' + a.cardClass;
+  inner.innerHTML = a.html;
+  document.getElementById('aankondigingOverlay').classList.add('open');
+}
+function closeAankondiging() {
+  document.getElementById('aankondigingOverlay').classList.remove('open');
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeAankondiging();
+});
+
 function applyZoom() {
   document.documentElement.style.zoom = zoomLevel + '%';
   document.getElementById('zoomPct').textContent = zoomLevel + '%';
@@ -967,5 +1104,14 @@ applyZoom();
 applyTileZoom();
 render();
 </script>
+
+<!-- AANKONDIGING OVERLAY -->
+<div class="aankondiging-overlay" id="aankondigingOverlay" onclick="closeAankondiging()">
+  <div class="aankondiging-card battle-card" id="aankondigingCard">
+    <div class="aankondiging-inner" id="aankondigingInner"></div>
+    <div class="aankondiging-close">Klik om te sluiten</div>
+  </div>
+</div>
+
 </body>
 </html>
