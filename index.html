@@ -693,14 +693,14 @@ function riderColHTML(naam, baanIdx) {
     }
   }
 
-  return \`
+  return `
     <div class="rider-col">
       <div class="baan-tag">
-        <div class="baan-bar \${cls}"></div>
-        <span class="baan-lbl \${cls}">\${baanMap[baan]}</span>
+        <div class="baan-bar ${cls}"></div>
+        <span class="baan-lbl ${cls}">${baanMap[baan]}</span>
       </div>
-      \${nameHTML}\${bodyHTML}
-    </div>\`;
+      ${nameHTML}${bodyHTML}
+    </div>`;
 }
 
 function cardHTML(rit, isCurrent) {
