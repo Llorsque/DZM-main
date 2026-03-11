@@ -6,1112 +6,684 @@
 <title>De Zilveren Bal 2026 — Hoofdtoernooi</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --navy:          #0a1628;
-    --navy-mid:      #0d1b33;
-    --navy-card:     #111e38;
-    --silver:        #b8cce0;
-    --silver-dim:    #6a8aaa;
-    --silver-bright: #dde8f4;
-    --gold:          #f0c040;
-    --ice:           #cce4f8;
-    --ice-dim:       #6898b8;
-    --accent:        #4a8eca;
-    --red-baan:      #e84040;
-    --geel-baan:     #f0c040;
-    --green:         #38c060;
-    --dames-color:   #d060a0;
-    --heren-color:   #4a8eca;
-  }
-
-  * { margin:0; padding:0; box-sizing:border-box; }
-
-  body {
-    background: var(--navy);
-    color: var(--silver-bright);
-    font-family: 'DM Sans', sans-serif;
-    height: 100vh; overflow: hidden;
-    display: flex; flex-direction: column;
-    background-image:
-      radial-gradient(ellipse at 15% 60%, rgba(74,142,202,0.07) 0%, transparent 55%),
-      radial-gradient(ellipse at 85% 10%, rgba(200,212,232,0.04) 0%, transparent 45%);
-  }
-
-  /* ══ HEADER ══ */
-  header {
-    display: flex; align-items: center; gap: 14px;
-    padding: 7px 18px;
-    background: var(--navy-mid);
-    border-bottom: 1px solid rgba(200,220,240,0.10);
-    flex-shrink: 0;
-  }
-  .logo-circle {
-    width: 36px; height: 36px; border-radius: 50%;
-    background: linear-gradient(135deg, #dce8f8, #8aaccc, #dce8f8);
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Bebas Neue', cursive; font-size: 8px;
-    color: var(--navy); text-align: center; line-height: 1.3;
-    box-shadow: 0 0 12px rgba(200,212,232,0.2); flex-shrink: 0;
-  }
-  .header-title { font-family:'Bebas Neue',cursive; font-size:20px; letter-spacing:3px; line-height:1; }
-  .header-title span { color: var(--gold); }
-  .header-sub { font-size:9px; color:var(--ice-dim); letter-spacing:2px; text-transform:uppercase; }
-
-  /* Gender toggle */
-  .gender-toggle {
-    display: flex; align-items: center;
-    background: rgba(0,0,0,0.25);
-    border: 1px solid rgba(200,220,240,0.12);
-    border-radius: 8px; overflow: hidden;
-    margin-left: 16px;
-  }
-  .gender-btn {
-    padding: 5px 16px; cursor: pointer;
-    font-family: 'Bebas Neue', cursive; font-size: 13px; letter-spacing: 2px;
-    border: none; background: transparent; transition: all 0.18s;
-    color: var(--silver-dim);
-  }
-  .gender-btn.dames.active { background: rgba(208,96,160,0.22); color: var(--dames-color); }
-  .gender-btn.heren.active { background: rgba(74,142,202,0.22); color: var(--heren-color); }
-  .gender-btn:not(.active):hover { background: rgba(200,220,240,0.06); color: var(--silver); }
-
-  /* Mode toggle */
-  .mode-toggle {
-    display: flex; align-items: center; gap: 6px;
-    padding: 0 10px; border-left: 1px solid rgba(200,220,240,0.10);
-    margin-left: 6px;
-  }
-  .mode-label { font-size: 9px; color: var(--ice-dim); letter-spacing: 1px; }
-  .mode-btn {
-    padding: 4px 12px; border-radius: 5px; cursor: pointer;
-    font-family: 'Bebas Neue', cursive; font-size: 12px; letter-spacing: 1.5px;
-    border: 1px solid rgba(200,220,240,0.15); background: rgba(200,220,240,0.05);
-    color: var(--silver-dim); transition: all 0.15s;
-  }
-  .mode-btn.active { background: rgba(240,192,64,0.15); border-color: var(--gold); color: var(--gold); }
-  .mode-btn:not(.active):hover { background: rgba(200,220,240,0.08); color: var(--silver); }
-
-  .header-nav { margin-left:auto; display:flex; align-items:center; gap:8px; }
-  .nav-hint { font-size:9px; color:var(--ice-dim); letter-spacing:1px; }
-  .nav-btn {
-    width:30px; height:30px;
-    border:1px solid rgba(200,212,232,0.18); background:rgba(200,212,232,0.05);
-    color:var(--silver); border-radius:6px; cursor:pointer; font-size:14px;
-    display:flex; align-items:center; justify-content:center; transition:all 0.15s;
-  }
-  .nav-btn:hover { background:rgba(200,212,232,0.12); border-color:var(--accent); color:#fff; }
-  .nav-btn:disabled { opacity:0.28; cursor:default; }
-  .rit-counter { font-family:'Bebas Neue',cursive; font-size:18px; letter-spacing:2px; color:var(--gold); min-width:52px; text-align:center; }
-
-  /* Zoom */
-  .zoom-group {
-    display:flex; align-items:center; gap:5px;
-    padding-left:10px; border-left:1px solid rgba(200,220,240,0.10); margin-left:4px;
-  }
-  .zoom-label { font-size:9px; color:var(--ice-dim); letter-spacing:1px; white-space:nowrap; }
-  .zoom-btn {
-    width:26px; height:26px;
-    border:1px solid rgba(200,212,232,0.16); background:rgba(200,212,232,0.05);
-    color:var(--silver); border-radius:5px; cursor:pointer; font-size:13px; font-weight:600;
-    display:flex; align-items:center; justify-content:center; transition:all 0.15s;
-  }
-  .zoom-btn:hover { background:rgba(200,212,232,0.12); border-color:var(--accent); color:#fff; }
-  .zoom-pct { font-family:'Bebas Neue',cursive; font-size:14px; color:var(--silver); min-width:36px; text-align:center; letter-spacing:1px; }
-  .zoom-divider { width:1px; height:20px; background:rgba(200,220,240,0.10); margin:0 3px; }
-  .zoom-presets { display:flex; gap:3px; }
-  .zoom-preset {
-    font-size:8px; padding:2px 5px; border-radius:4px; cursor:pointer;
-    border:1px solid rgba(200,212,232,0.13); background:rgba(200,212,232,0.04);
-    color:var(--silver-dim); transition:all 0.15s; white-space:nowrap;
-  }
-  .zoom-preset:hover { background:rgba(200,212,232,0.10); color:var(--silver); }
-  .zoom-preset.active { background:rgba(74,142,202,0.20); border-color:var(--accent); color:var(--ice); }
-
-  /* ══ LAYOUT ══ */
-  .main { display:flex; flex:1; overflow:hidden; }
-
-  /* ══ LEFT PANEL ══ */
-  .panel-left {
-    width: 200px; flex-shrink:0;
-    border-right:1px solid rgba(200,220,240,0.07);
-    display:flex; flex-direction:column;
-    background:rgba(7,15,28,0.6);
-  }
-  .panel-left-header {
-    padding:7px 11px 6px;
-    border-bottom:1px solid rgba(200,220,240,0.07);
-    font-family:'Bebas Neue',cursive; font-size:11px; letter-spacing:3px; color:var(--ice-dim);
-    flex-shrink:0; display:flex; align-items:center; justify-content:space-between;
-  }
-  .startlist-scroll { flex:1; overflow-y:auto; padding:3px 0; }
-  .startlist-scroll::-webkit-scrollbar { width:3px; }
-  .startlist-scroll::-webkit-scrollbar-thumb { background:rgba(200,212,232,0.12); border-radius:2px; }
-
-  .rit-group {
-    padding:4px 9px; cursor:pointer;
-    border-left:3px solid transparent; transition:background 0.12s;
-  }
-  .rit-group:hover { background:rgba(200,212,232,0.05); }
-  .rit-group.active { background:rgba(74,142,202,0.16); border-left-color:var(--accent); }
-  .rit-group.upcoming { background:rgba(74,142,202,0.06); border-left-color:rgba(74,142,202,0.3); }
-  .rit-label { display:flex; align-items:center; gap:4px; margin-bottom:2px; }
-  .rit-num-badge { font-family:'Bebas Neue',cursive; font-size:11px; letter-spacing:1px; color:var(--gold); }
-
-  .rit-riders-compact { display:flex; flex-direction:column; gap:1px; }
-  .rider-tiny { display:flex; align-items:center; gap:4px; font-size:10px; color:var(--silver); line-height:1.45; }
-  .dot { width:5px; height:5px; border-radius:50%; flex-shrink:0; }
-  .dot.wit  { background:#fff; }
-  .dot.rood { background:var(--red-baan); }
-  .dot.geel { background:var(--geel-baan); }
-  .dot.empty { background:rgba(200,220,240,0.2); border:1px dashed rgba(200,220,240,0.3); }
-
-  .omloop-header {
-    padding:5px 11px 3px;
-    font-family:'Bebas Neue',cursive; font-size:10px; letter-spacing:2px;
-    color:rgba(200,220,240,0.35); border-top:1px solid rgba(200,220,240,0.07); margin-top:2px;
-  }
-  .omloop-header:first-child { border-top:none; margin-top:0; }
-
-  /* ══ RIGHT PANEL ══ */
-  .panel-right {
-    flex:1; display:flex; flex-direction:column;
-    overflow:hidden; min-width:0; position:relative;
-  }
-  #tileZoomWrap { flex:1; display:flex; flex-direction:column; overflow:hidden; position:relative; }
-  #tileZoomInner {
-    position:absolute; inset:0; display:flex; flex-direction:column;
-    padding:10px 14px 6px; gap:8px;
-    transform-origin: top left; transition:transform 0.15s ease;
-    width:100%; height:100%;
-  }
-  .rit-cards { display:flex; flex-direction:column; gap:8px; flex:1; overflow:hidden; }
-
-  /* ══ RIT CARD ══ */
-  .rit-card {
-    flex:1; background:var(--navy-card);
-    border:1px solid rgba(200,220,240,0.08); border-radius:11px;
-    display:flex; flex-direction:column; overflow:hidden; min-height:0;
-  }
-  .rit-card.current { border-color:rgba(74,142,202,0.38); box-shadow:0 0 24px rgba(74,142,202,0.09); }
-
-  .card-header {
-    display:flex; align-items:center; gap:10px;
-    padding:7px 14px; border-bottom:1px solid rgba(200,220,240,0.07);
-    flex-shrink:0; background:rgba(0,0,0,0.18);
-  }
-  .card-rit-num { font-family:'Bebas Neue',cursive; font-size:32px; color:var(--gold); line-height:1; min-width:40px; }
-  .card-meta { flex:1; }
-  .card-tag { font-family:'Bebas Neue',cursive; font-size:10px; letter-spacing:3px; color:var(--accent); }
-  .card-sub { font-family:'Bebas Neue',cursive; font-size:13px; letter-spacing:2px; color:var(--silver-dim); }
-  .omloop-pill {
-    font-family:'Bebas Neue',cursive; font-size:11px; letter-spacing:2px;
-    padding:3px 10px; border-radius:20px;
-    background:rgba(74,142,202,0.14); color:var(--accent);
-    border:1px solid rgba(74,142,202,0.25);
-  }
-  .rit-card.current .omloop-pill { background:rgba(74,142,202,0.22); color:var(--ice); }
-
-  /* ══ RIDER COLUMNS ══ */
-  .card-body { display:flex; flex:1; overflow:hidden; min-height:0; }
-  .rider-col {
-    flex:1; display:flex; flex-direction:column;
-    padding:9px 12px 8px;
-    border-right:1px solid rgba(200,220,240,0.06);
-    overflow-y:auto; min-width:0;
-  }
-  .rider-col:last-child { border-right:none; }
-  .rider-col::-webkit-scrollbar { width:3px; }
-  .rider-col::-webkit-scrollbar-thumb { background:rgba(200,212,232,0.10); border-radius:2px; }
-
-  .baan-tag { display:flex; align-items:center; gap:6px; margin-bottom:3px; flex-shrink:0; }
-  .baan-bar { width:22px; height:3px; border-radius:2px; flex-shrink:0; }
-  .baan-bar.wit  { background:#fff; }
-  .baan-bar.rood { background:var(--red-baan); }
-  .baan-bar.geel { background:var(--geel-baan); }
-  .baan-lbl { font-family:'Bebas Neue',cursive; font-size:13px; letter-spacing:1.5px; }
-  .baan-lbl.wit  { color:rgba(255,255,255,0.65); }
-  .baan-lbl.rood { color:var(--red-baan); }
-  .baan-lbl.geel { color:var(--geel-baan); }
-
-  .rider-name-full {
-    font-family:'Bebas Neue',cursive; font-size:22px; letter-spacing:0.5px;
-    color:var(--silver-bright); line-height:1; margin-bottom:8px; flex-shrink:0;
-  }
-  .rider-name-full.empty-slot {
-    color:rgba(200,220,240,0.2); font-size:14px; margin-top:4px;
-    font-style:italic; font-family:'DM Sans',sans-serif; font-weight:300; letter-spacing:0;
-  }
-
-  .info-list { display:flex; flex-direction:column; gap:0; flex:1; min-height:0; }
-  .info-item {
-    display:flex; flex-direction:column;
-    padding:4px 0; border-bottom:1px solid rgba(200,220,240,0.06); flex-shrink:0;
-  }
-  .info-item:last-child { border-bottom:none; }
-  .info-lbl { font-size:8.5px; text-transform:uppercase; letter-spacing:1.5px; color:var(--ice-dim); margin-bottom:2px; }
-  .info-val { font-size:12.5px; color:var(--silver); line-height:1.35; word-break:break-word; }
-  .info-val.hi { color:var(--ice); font-weight:500; }
-
-  .no-info { font-size:11px; color:rgba(200,212,232,0.22); font-style:italic; margin-top:6px; }
-
-  /* KB HINT */
-  .kb-hint {
-    display:flex; justify-content:center; align-items:center; gap:6px;
-    font-size:9px; color:rgba(200,212,232,0.2); letter-spacing:1px;
-    flex-shrink:0; padding-bottom:2px;
-  }
-  .kkey {
-    background:rgba(200,212,232,0.06); border:1px solid rgba(200,212,232,0.11);
-    border-radius:4px; padding:1px 6px; font-size:10px; color:rgba(200,212,232,0.32);
-  }
-
-  /* ══ EDITOR MODE ══ */
-  .editor-overlay {
-    display:none; position:fixed; inset:0; z-index:100;
-    background:rgba(5,12,24,0.92); backdrop-filter:blur(4px);
-    flex-direction:column; overflow:hidden;
-  }
-  .editor-overlay.open { display:flex; }
-
-  .editor-header {
-    display:flex; align-items:center; gap:16px;
-    padding:12px 24px; background:var(--navy-mid);
-    border-bottom:1px solid rgba(200,220,240,0.10);
-    flex-shrink:0;
-  }
-  .editor-title { font-family:'Bebas Neue',cursive; font-size:22px; letter-spacing:3px; }
-  .editor-title span { color:var(--gold); }
-  .editor-close {
-    margin-left:auto; padding:6px 18px; border-radius:7px; cursor:pointer;
-    font-family:'Bebas Neue',cursive; font-size:13px; letter-spacing:2px;
-    background:rgba(74,142,202,0.15); border:1px solid rgba(74,142,202,0.3);
-    color:var(--ice); transition:all 0.15s;
-  }
-  .editor-close:hover { background:rgba(74,142,202,0.28); }
-  .editor-save {
-    padding:6px 18px; border-radius:7px; cursor:pointer;
-    font-family:'Bebas Neue',cursive; font-size:13px; letter-spacing:2px;
-    background:rgba(56,192,96,0.18); border:1px solid rgba(56,192,96,0.35);
-    color:#6de898; transition:all 0.15s;
-  }
-  .editor-save:hover { background:rgba(56,192,96,0.3); }
-
-  .editor-body {
-    display:flex; flex:1; overflow:hidden; gap:0;
-  }
-
-  /* Left: deelnemers pool */
-  .editor-pool {
-    width:220px; flex-shrink:0;
-    border-right:1px solid rgba(200,220,240,0.08);
-    display:flex; flex-direction:column;
-    background:rgba(7,15,28,0.5);
-  }
-  .editor-pool-header {
-    padding:8px 12px; border-bottom:1px solid rgba(200,220,240,0.08);
-    font-family:'Bebas Neue',cursive; font-size:12px; letter-spacing:2px; color:var(--ice-dim);
-    flex-shrink:0;
-  }
-  .editor-pool-scroll { flex:1; overflow-y:auto; padding:4px 0; }
-  .editor-pool-scroll::-webkit-scrollbar { width:3px; }
-  .editor-pool-scroll::-webkit-scrollbar-thumb { background:rgba(200,212,232,0.12); border-radius:2px; }
-
-  .pool-rider {
-    padding:5px 12px; font-size:12px; color:var(--silver);
-    cursor:pointer; transition:background 0.12s; display:flex; align-items:center; gap:6px;
-  }
-  .pool-rider:hover { background:rgba(200,212,232,0.07); }
-  .pool-rider.used { color:rgba(200,212,232,0.3); cursor:default; }
-  .pool-rider.used:hover { background:transparent; }
-  .pool-rider .used-badge {
-    font-size:8px; color:rgba(200,212,232,0.3); margin-left:auto; letter-spacing:0.5px;
-  }
-
-  /* Right: rit builder */
-  .editor-ritten {
-    flex:1; overflow-y:auto; padding:16px 20px; display:flex; flex-direction:column; gap:10px;
-  }
-  .editor-ritten::-webkit-scrollbar { width:4px; }
-  .editor-ritten::-webkit-scrollbar-thumb { background:rgba(200,212,232,0.12); border-radius:2px; }
-
-  .editor-rit-row {
-    display:flex; align-items:center; gap:10px;
-    background:var(--navy-card); border:1px solid rgba(200,220,240,0.08);
-    border-radius:9px; padding:8px 12px;
-  }
-  .editor-rit-num {
-    font-family:'Bebas Neue',cursive; font-size:28px; color:var(--gold);
-    min-width:36px; line-height:1;
-  }
-  .editor-slots { display:flex; gap:8px; flex:1; }
-  .editor-slot { flex:1; display:flex; flex-direction:column; gap:3px; }
-  .slot-baan-label {
-    font-size:8.5px; letter-spacing:1px; font-family:'Bebas Neue',cursive;
-    display:flex; align-items:center; gap:4px;
-  }
-  .slot-dot { width:6px; height:6px; border-radius:50%; }
-  .slot-dot.wit  { background:#fff; }
-  .slot-dot.rood { background:var(--red-baan); }
-  .slot-dot.geel { background:var(--geel-baan); }
-  .slot-label-txt.wit  { color:rgba(255,255,255,0.55); }
-  .slot-label-txt.rood { color:var(--red-baan); }
-  .slot-label-txt.geel { color:var(--geel-baan); }
-
-  .slot-select {
-    width:100%; background:rgba(0,0,0,0.3);
-    border:1px solid rgba(200,220,240,0.14); border-radius:5px;
-    color:var(--silver); font-size:11px; padding:4px 6px;
-    font-family:'DM Sans',sans-serif; cursor:pointer; outline:none;
-    transition:border-color 0.15s;
-  }
-  .slot-select:focus { border-color:var(--accent); }
-  .slot-select option { background:#111e38; }
-
-  .editor-add-rit {
-    display:flex; align-items:center; justify-content:center; gap:8px;
-    padding:8px; border:1px dashed rgba(200,220,240,0.15); border-radius:9px;
-    cursor:pointer; color:rgba(200,220,240,0.35); font-size:12px; letter-spacing:1px;
-    transition:all 0.15s;
-  }
-  .editor-add-rit:hover { border-color:rgba(74,142,202,0.4); color:var(--accent); background:rgba(74,142,202,0.05); }
-
-  .editor-rit-del {
-    width:24px; height:24px; border-radius:5px; cursor:pointer; font-size:13px;
-    border:1px solid rgba(232,64,64,0.2); background:rgba(232,64,64,0.06);
-    color:rgba(232,64,64,0.5); display:flex; align-items:center; justify-content:center;
-    transition:all 0.15s; flex-shrink:0;
-  }
-  .editor-rit-del:hover { background:rgba(232,64,64,0.18); color:var(--red-baan); border-color:var(--red-baan); }
-
-  /* omloop section in editor */
-  .editor-omloop-title {
-    font-family:'Bebas Neue',cursive; font-size:13px; letter-spacing:3px;
-    color:var(--ice-dim); padding:4px 0 2px; border-bottom:1px solid rgba(200,220,240,0.08);
-    margin-bottom:4px;
-  }
-
-  /* ══ SPORTS DATA STYLES ══ */
-  .afscheid-badge {
-    display: inline-flex; align-items: center; gap: 5px;
-    font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase;
-    color: var(--gold); background: rgba(240,192,64,0.12);
-    border: 1px solid rgba(240,192,64,0.25);
-    border-radius: 4px; padding: 2px 8px; margin-bottom: 5px;
-    font-family: 'Bebas Neue', cursive; font-size: 10px;
-  }
-  .time-val {
-    font-size: 16px !important; font-weight: 600 !important;
-    letter-spacing: 1px;
-    display: flex; align-items: baseline; gap: 8px;
-  }
-  .time-loc {
-    font-size: 10px; font-weight: 400; color: var(--ice-dim);
-    letter-spacing: 1px; text-transform: uppercase;
-  }
-  .zb-history {
-    display: flex; gap: 6px; margin-top: 4px; flex-wrap: wrap;
-  }
-  .zb-cell {
-    display: flex; flex-direction: column; align-items: center;
-    background: rgba(200,220,240,0.04);
-    border: 1px solid rgba(200,220,240,0.08);
-    border-radius: 6px; padding: 4px 8px; min-width: 44px;
-  }
-  .zb-cell.has-result {
-    background: rgba(74,142,202,0.12);
-    border-color: rgba(74,142,202,0.25);
-  }
-  .zb-yr { font-size: 8.5px; color: var(--ice-dim); letter-spacing: 1px; margin-bottom: 2px; }
-  .zb-val {
-    font-family: 'Bebas Neue', cursive; font-size: 16px;
-    color: rgba(200,220,240,0.25); letter-spacing: 1px; line-height: 1;
-  }
-  .zb-cell.has-result .zb-val { color: var(--gold); }
-
-
-  /* ══ AANKONDIGING KNOPPEN ══ */
-  .aankondiging-btn {
-    padding: 5px 12px; border-radius: 7px; cursor: pointer;
-    font-family: 'Bebas Neue', cursive; font-size: 12px; letter-spacing: 2px;
-    border: 1px solid; transition: all 0.15s; white-space: nowrap; margin-left: 4px;
-  }
-  .aankondiging-btn.battle {
-    background: rgba(232,80,40,0.14); border-color: rgba(232,80,40,0.32); color: #f08060;
-  }
-  .aankondiging-btn.battle:hover { background: rgba(232,80,40,0.26); }
-  .aankondiging-btn.driekm {
-    background: rgba(56,192,96,0.14); border-color: rgba(56,192,96,0.32); color: #6de898;
-  }
-  .aankondiging-btn.driekm:hover { background: rgba(56,192,96,0.26); }
-
-  /* ══ AANKONDIGING OVERLAY ══ */
-  .aankondiging-overlay {
-    display: none; position: fixed; inset: 0; z-index: 300;
-    background: rgba(3,8,18,0.92); backdrop-filter: blur(8px);
-    align-items: center; justify-content: center; cursor: pointer;
-  }
-  .aankondiging-overlay.open { display: flex; }
-
-  .aankondiging-card {
-    border-radius: 20px; padding: 0; overflow: hidden;
-    max-width: 820px; width: 92vw;
-    box-shadow: 0 30px 80px rgba(0,0,0,0.7);
-    cursor: default; position: relative;
-    border: 1px solid rgba(200,220,240,0.12);
-  }
-  .aankondiging-inner {
-    display: flex; flex-direction: column; align-items: center;
-    justify-content: center; gap: 16px; padding: 52px 48px 40px;
-    text-align: center;
-  }
-  .aankondiging-close {
-    padding: 12px; text-align: center;
-    font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
-    color: rgba(200,220,240,0.28); border-top: 1px solid rgba(200,220,240,0.08);
-    background: rgba(0,0,0,0.2);
-  }
-
-  /* BATTLE */
-  .battle-card { background: linear-gradient(145deg, #1a0a08, #2a0e06, #1a0a08); }
-  .battle-emoji { font-size: 72px; line-height: 1; }
-  .battle-title {
-    font-family: 'Bebas Neue', cursive; font-size: 64px; letter-spacing: 6px;
-    color: #f08060; line-height: 1;
-    text-shadow: 0 0 40px rgba(232,80,40,0.5);
-  }
-  .battle-subtitle {
-    font-family: 'Bebas Neue', cursive; font-size: 22px; letter-spacing: 4px;
-    color: rgba(240,180,150,0.7);
-  }
-  .battle-divider {
-    width: 60px; height: 2px; border-radius: 2px;
-    background: linear-gradient(90deg, transparent, #f08060, transparent);
-    margin: 4px 0;
-  }
-  .battle-names {
-    font-family: 'Bebas Neue', cursive; font-size: 28px; letter-spacing: 3px;
-    color: rgba(240,180,150,0.9); line-height: 1.5;
-  }
-  .battle-when {
-    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
-    color: rgba(240,180,150,0.4); margin-top: 8px;
-  }
-
-  /* 3KM */
-  .driekm-card { background: linear-gradient(145deg, #071a0e, #0a2012, #071a0e); }
-  .driekm-emoji { font-size: 72px; line-height: 1; }
-  .driekm-dist {
-    font-family: 'Bebas Neue', cursive; font-size: 100px; letter-spacing: 4px;
-    color: #6de898; line-height: 0.9;
-    text-shadow: 0 0 50px rgba(56,192,96,0.45);
-  }
-  .driekm-label {
-    font-family: 'Bebas Neue', cursive; font-size: 20px; letter-spacing: 6px;
-    color: rgba(109,232,152,0.55); margin-top: -8px;
-  }
-  .driekm-divider {
-    width: 60px; height: 2px; border-radius: 2px;
-    background: linear-gradient(90deg, transparent, #6de898, transparent);
-    margin: 8px 0;
-  }
-  .driekm-names {
-    font-family: 'Bebas Neue', cursive; font-size: 32px; letter-spacing: 3px;
-    color: rgba(109,232,152,0.95); line-height: 1.4;
-  }
-  .driekm-when {
-    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
-    color: rgba(109,232,152,0.35); margin-top: 8px;
-  }
-
+:root{
+  --navy:#0a1628;--navy-mid:#0d1b33;--navy-card:#111e38;
+  --silver:#b8cce0;--silver-dim:#6a8aaa;--silver-bright:#dde8f4;
+  --gold:#f0c040;--ice:#cce4f8;--ice-dim:#6898b8;--accent:#4a8eca;
+  --red-baan:#e84040;--geel-baan:#f0c040;
+  --c-kids:#b8cce0;--c-ol1d:#d060a0;--c-ol1h:#4a8eca;--c-mascot:#b07cfc;
+  --c-battle:#f07040;--c-joy:#38c080;--c-hf:#f0c040;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--navy);color:var(--silver-bright);font-family:"DM Sans",sans-serif;
+  height:100vh;overflow:hidden;display:flex;flex-direction:column;
+  background-image:radial-gradient(ellipse at 15% 60%,rgba(74,142,202,.07) 0%,transparent 55%),
+    radial-gradient(ellipse at 85% 10%,rgba(200,212,232,.04) 0%,transparent 45%);}
+header{display:flex;align-items:center;gap:9px;padding:6px 14px;
+  background:var(--navy-mid);border-bottom:1px solid rgba(200,220,240,.10);flex-shrink:0;}
+.logo-circle{width:33px;height:33px;border-radius:50%;
+  background:linear-gradient(135deg,#dce8f8,#8aaccc,#dce8f8);
+  display:flex;align-items:center;justify-content:center;
+  font-family:"Bebas Neue",cursive;font-size:7px;color:var(--navy);text-align:center;line-height:1.3;flex-shrink:0;}
+.hdr-title{font-family:"Bebas Neue",cursive;font-size:17px;letter-spacing:3px;line-height:1;}
+.hdr-title span{color:var(--gold);}
+.hdr-sub{font-size:8px;color:var(--ice-dim);letter-spacing:2px;text-transform:uppercase;}
+.hdr-sep{width:1px;height:26px;background:rgba(200,220,240,.10);margin:0 2px;}
+.mode-btn{padding:4px 11px;border-radius:5px;cursor:pointer;
+  font-family:"Bebas Neue",cursive;font-size:11px;letter-spacing:2px;
+  border:1px solid rgba(200,220,240,.14);background:rgba(200,220,240,.05);color:var(--silver-dim);transition:all .15s;}
+.mode-btn.active{background:rgba(240,192,64,.15);border-color:var(--gold);color:var(--gold);}
+.mode-btn:not(.active):hover{background:rgba(200,220,240,.08);color:var(--silver);}
+.spec-btn{padding:4px 10px;border-radius:5px;cursor:pointer;font-family:"Bebas Neue",cursive;
+  font-size:10.5px;letter-spacing:1.5px;border:1px solid;transition:all .15s;white-space:nowrap;}
+.spec-btn.battle{background:rgba(240,112,64,.12);border-color:rgba(240,112,64,.3);color:#f09070;}
+.spec-btn.battle:hover{background:rgba(240,112,64,.22);}
+.spec-btn.driekm{background:rgba(56,192,96,.12);border-color:rgba(56,192,96,.3);color:#6de898;}
+.spec-btn.driekm:hover{background:rgba(56,192,96,.22);}
+.header-nav{margin-left:auto;display:flex;align-items:center;gap:6px;}
+.nav-hint{font-size:8.5px;color:var(--ice-dim);letter-spacing:1px;}
+.nav-btn{width:27px;height:27px;border:1px solid rgba(200,212,232,.18);background:rgba(200,212,232,.05);
+  color:var(--silver);border-radius:5px;cursor:pointer;font-size:13px;
+  display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.nav-btn:hover{background:rgba(200,212,232,.12);border-color:var(--accent);color:#fff;}
+.nav-btn:disabled{opacity:.28;cursor:default;}
+.blok-counter{font-family:"Bebas Neue",cursive;font-size:16px;letter-spacing:2px;color:var(--gold);min-width:54px;text-align:center;}
+.zoom-group{display:flex;align-items:center;gap:4px;padding-left:7px;border-left:1px solid rgba(200,220,240,.10);margin-left:3px;}
+.zoom-label{font-size:8px;color:var(--ice-dim);letter-spacing:1px;white-space:nowrap;}
+.zoom-btn{width:23px;height:23px;border:1px solid rgba(200,212,232,.16);background:rgba(200,212,232,.05);
+  color:var(--silver);border-radius:4px;cursor:pointer;font-size:12px;font-weight:600;
+  display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.zoom-btn:hover{background:rgba(200,212,232,.12);border-color:var(--accent);color:#fff;}
+.zoom-pct{font-family:"Bebas Neue",cursive;font-size:13px;color:var(--silver);min-width:32px;text-align:center;letter-spacing:1px;}
+.zoom-presets{display:flex;gap:2px;}
+.zoom-preset{font-size:7.5px;padding:2px 4px;border-radius:3px;cursor:pointer;
+  border:1px solid rgba(200,212,232,.12);background:rgba(200,212,232,.04);color:var(--silver-dim);transition:all .15s;}
+.zoom-preset:hover{background:rgba(200,212,232,.10);color:var(--silver);}
+.zoom-preset.active{background:rgba(74,142,202,.20);border-color:var(--accent);color:var(--ice);}
+.zoom-sep{width:1px;height:16px;background:rgba(200,220,240,.10);margin:0 2px;}
+.main{display:flex;flex:1;overflow:hidden;}
+.panel-left{width:200px;flex-shrink:0;border-right:1px solid rgba(200,220,240,.07);
+  display:flex;flex-direction:column;background:rgba(7,15,28,.6);}
+.pl-hdr{padding:6px 11px 5px;border-bottom:1px solid rgba(200,220,240,.07);
+  font-family:"Bebas Neue",cursive;font-size:10px;letter-spacing:3px;color:var(--ice-dim);flex-shrink:0;}
+.sl-scroll{flex:1;overflow-y:auto;padding:2px 0;}
+.sl-scroll::-webkit-scrollbar{width:3px;}
+.sl-scroll::-webkit-scrollbar-thumb{background:rgba(200,212,232,.12);border-radius:2px;}
+.sl-sectie{padding:5px 10px 3px;font-family:"Bebas Neue",cursive;font-size:8.5px;letter-spacing:2.5px;
+  border-top:1px solid rgba(200,220,240,.07);margin-top:2px;display:flex;align-items:center;gap:5px;}
+.sl-sectie:first-child{border-top:none;margin-top:0;}
+.sl-sectie-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
+.sl-item{padding:4px 9px;cursor:pointer;border-left:3px solid transparent;transition:background .12s;}
+.sl-item:hover{background:rgba(200,212,232,.05);}
+.sl-item.active{background:rgba(74,142,202,.16);border-left-color:var(--accent);}
+.sl-item.upcoming{background:rgba(74,142,202,.06);border-left-color:rgba(74,142,202,.28);}
+.sl-num{font-family:"Bebas Neue",cursive;font-size:10px;letter-spacing:1px;color:var(--gold);}
+.sl-riders{display:flex;flex-direction:column;gap:1px;}
+.sl-rider{display:flex;align-items:center;gap:4px;font-size:9.5px;color:var(--silver);line-height:1.4;}
+.dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
+.dot.wit{background:#fff;}.dot.geel{background:var(--geel-baan);}.dot.rood{background:var(--red-baan);}
+.dot.empty{background:rgba(200,220,240,.18);border:1px dashed rgba(200,220,240,.28);}
+.dot.special{background:var(--c-battle);}
+.panel-right{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;position:relative;}
+#tileZoomWrap{flex:1;display:flex;flex-direction:column;overflow:hidden;position:relative;}
+#tileZoomInner{position:absolute;inset:0;display:flex;flex-direction:column;
+  padding:10px 14px 6px;gap:8px;transform-origin:top left;transition:transform .15s ease;width:100%;height:100%;}
+.rit-cards{display:flex;flex-direction:column;gap:8px;flex:1;overflow:hidden;}
+.rit-card{flex:1;background:var(--navy-card);border:1px solid rgba(200,220,240,.08);
+  border-radius:11px;display:flex;flex-direction:column;overflow:hidden;min-height:0;}
+.rit-card.current{border-color:rgba(74,142,202,.38);box-shadow:0 0 24px rgba(74,142,202,.09);}
+.card-header{display:flex;align-items:center;gap:10px;padding:7px 14px;
+  border-bottom:1px solid rgba(200,220,240,.07);flex-shrink:0;background:rgba(0,0,0,.18);}
+.card-rit-num{font-family:"Bebas Neue",cursive;font-size:30px;color:var(--gold);line-height:1;min-width:36px;}
+.card-meta{flex:1;}
+.card-tag{font-family:"Bebas Neue",cursive;font-size:9px;letter-spacing:3px;color:var(--accent);}
+.card-sub{font-family:"Bebas Neue",cursive;font-size:11.5px;letter-spacing:2px;color:var(--silver-dim);}
+.sectie-pill{font-family:"Bebas Neue",cursive;font-size:9.5px;letter-spacing:2px;
+  padding:3px 9px;border-radius:18px;border:1px solid;white-space:nowrap;}
+.pill-kids{background:rgba(184,204,224,.10);color:var(--c-kids);border-color:rgba(184,204,224,.22);}
+.pill-ol1d,.pill-ol2d{background:rgba(208,96,160,.11);color:var(--c-ol1d);border-color:rgba(208,96,160,.24);}
+.pill-ol1h,.pill-ol2h{background:rgba(74,142,202,.12);color:var(--c-ol1h);border-color:rgba(74,142,202,.26);}
+.pill-mascot{background:rgba(176,124,252,.11);color:var(--c-mascot);border-color:rgba(176,124,252,.24);}
+.pill-battle{background:rgba(240,112,64,.11);color:var(--c-battle);border-color:rgba(240,112,64,.26);}
+.pill-joy{background:rgba(56,192,96,.11);color:var(--c-joy);border-color:rgba(56,192,96,.24);}
+.pill-hfd,.pill-hfh{background:rgba(240,192,64,.11);color:var(--c-hf);border-color:rgba(240,192,64,.24);}
+.pill-fnd,.pill-fnh{background:rgba(240,192,64,.18);color:var(--gold);border-color:rgba(240,192,64,.38);}
+.card-body{display:flex;flex:1;overflow:hidden;min-height:0;}
+.rider-col{flex:1;display:flex;flex-direction:column;padding:9px 12px 8px;
+  border-right:1px solid rgba(200,220,240,.06);overflow-y:auto;min-width:0;}
+.rider-col:last-child{border-right:none;}
+.rider-col::-webkit-scrollbar{width:3px;}
+.rider-col::-webkit-scrollbar-thumb{background:rgba(200,212,232,.10);border-radius:2px;}
+.baan-tag{display:flex;align-items:center;gap:5px;margin-bottom:3px;flex-shrink:0;}
+.baan-bar{width:20px;height:3px;border-radius:2px;flex-shrink:0;}
+.baan-bar.wit{background:#fff;}.baan-bar.rood{background:var(--red-baan);}.baan-bar.geel{background:var(--geel-baan);}
+.baan-lbl{font-family:"Bebas Neue",cursive;font-size:11.5px;letter-spacing:1.5px;}
+.baan-lbl.wit{color:rgba(255,255,255,.58);}.baan-lbl.rood{color:var(--red-baan);}.baan-lbl.geel{color:var(--geel-baan);}
+.rider-name{font-family:"Bebas Neue",cursive;font-size:20px;letter-spacing:.5px;
+  color:var(--silver-bright);line-height:1;margin-bottom:7px;flex-shrink:0;}
+.rider-name.empty{color:rgba(200,220,240,.2);font-size:12px;margin-top:3px;
+  font-style:italic;font-family:"DM Sans",sans-serif;font-weight:300;letter-spacing:0;}
+.info-list{display:flex;flex-direction:column;gap:0;}
+.info-item{display:flex;flex-direction:column;padding:3.5px 0;border-bottom:1px solid rgba(200,220,240,.06);}
+.info-item:last-child{border-bottom:none;}
+.info-lbl{font-size:8px;text-transform:uppercase;letter-spacing:1.5px;color:var(--ice-dim);margin-bottom:2px;}
+.info-val{font-size:11.5px;color:var(--silver);line-height:1.35;}
+.info-val.hi{color:var(--ice);font-weight:500;}
+.time-val{font-size:14px !important;font-weight:600 !important;letter-spacing:1px;display:flex;align-items:baseline;gap:6px;}
+.time-loc{font-size:9px;font-weight:400;color:var(--ice-dim);letter-spacing:1px;text-transform:uppercase;}
+.zb-history{display:flex;gap:5px;margin-top:3px;flex-wrap:wrap;}
+.zb-cell{display:flex;flex-direction:column;align-items:center;
+  background:rgba(200,220,240,.04);border:1px solid rgba(200,220,240,.08);border-radius:5px;padding:3px 6px;min-width:38px;}
+.zb-cell.has-result{background:rgba(74,142,202,.11);border-color:rgba(74,142,202,.24);}
+.zb-yr{font-size:7.5px;color:var(--ice-dim);letter-spacing:1px;margin-bottom:1px;}
+.zb-val{font-family:"Bebas Neue",cursive;font-size:14px;color:rgba(200,220,240,.2);letter-spacing:1px;line-height:1;}
+.zb-cell.has-result .zb-val{color:var(--gold);}
+.no-info{font-size:10.5px;color:rgba(200,212,232,.2);font-style:italic;margin-top:5px;}
+.afscheid-badge{display:inline-flex;align-items:center;gap:4px;margin-bottom:5px;
+  background:rgba(240,192,64,.10);border:1px solid rgba(240,192,64,.24);
+  border-radius:4px;padding:2px 7px;font-family:"Bebas Neue",cursive;font-size:9.5px;letter-spacing:1.5px;color:var(--gold);}
+.battle-info-item{display:flex;flex-direction:column;padding:3.5px 0;border-bottom:1px solid rgba(240,112,64,.10);}
+.battle-info-item:last-child{border-bottom:none;}
+.battle-info-lbl{font-size:8px;text-transform:uppercase;letter-spacing:1.5px;color:rgba(240,160,100,.65);margin-bottom:2px;}
+.battle-info-val{font-size:11.5px;color:rgba(240,180,150,.9);line-height:1.35;}
+.joy-dist-badge{display:flex;align-items:center;gap:8px;margin-bottom:8px;
+  background:rgba(56,192,96,.09);border:1px solid rgba(56,192,96,.22);border-radius:6px;padding:5px 10px;}
+.joy-dist-num{font-family:"Bebas Neue",cursive;font-size:26px;color:var(--c-joy);letter-spacing:2px;line-height:1;}
+.joy-dist-lbl{font-size:8.5px;letter-spacing:2px;text-transform:uppercase;color:rgba(56,192,96,.55);}
+.kb-hint{display:flex;justify-content:center;align-items:center;gap:6px;
+  font-size:9px;color:rgba(200,212,232,.18);letter-spacing:1px;flex-shrink:0;padding-bottom:2px;}
+.kkey{background:rgba(200,212,232,.05);border:1px solid rgba(200,212,232,.10);
+  border-radius:3px;padding:1px 5px;font-size:9px;color:rgba(200,212,232,.28);}
+.editor-overlay{display:none;position:fixed;inset:0;z-index:100;
+  background:rgba(5,12,24,.92);backdrop-filter:blur(4px);flex-direction:column;overflow:hidden;}
+.editor-overlay.open{display:flex;}
+.editor-header{display:flex;align-items:center;gap:12px;padding:10px 20px;
+  background:var(--navy-mid);border-bottom:1px solid rgba(200,220,240,.10);flex-shrink:0;}
+.editor-title{font-family:"Bebas Neue",cursive;font-size:19px;letter-spacing:3px;}
+.editor-title span{color:var(--gold);}
+.ed-save{margin-left:auto;padding:5px 15px;border-radius:6px;cursor:pointer;
+  font-family:"Bebas Neue",cursive;font-size:12px;letter-spacing:2px;
+  background:rgba(56,192,96,.16);border:1px solid rgba(56,192,96,.32);color:#6de898;transition:all .15s;}
+.ed-save:hover{background:rgba(56,192,96,.28);}
+.ed-close{padding:5px 13px;border-radius:6px;cursor:pointer;font-family:"Bebas Neue",cursive;
+  font-size:12px;letter-spacing:2px;background:rgba(200,220,240,.06);
+  border:1px solid rgba(200,220,240,.15);color:var(--silver);transition:all .15s;}
+.ed-close:hover{background:rgba(200,220,240,.12);color:#fff;}
+.editor-body{display:flex;flex:1;overflow:hidden;}
+.editor-pool{width:205px;flex-shrink:0;border-right:1px solid rgba(200,220,240,.08);
+  display:flex;flex-direction:column;background:rgba(7,15,28,.5);}
+.pool-tabs{display:flex;border-bottom:1px solid rgba(200,220,240,.08);flex-shrink:0;}
+.pool-tab{flex:1;padding:7px 4px;text-align:center;cursor:pointer;font-family:"Bebas Neue",cursive;
+  font-size:10px;letter-spacing:2px;color:var(--silver-dim);border-bottom:2px solid transparent;transition:all .15s;}
+.pool-tab.active.dames{color:var(--c-ol1d);border-bottom-color:var(--c-ol1d);}
+.pool-tab.active.heren{color:var(--c-ol1h);border-bottom-color:var(--c-ol1h);}
+.pool-tab.active.div{color:var(--c-mascot);border-bottom-color:var(--c-mascot);}
+.pool-tab:not(.active):hover{color:var(--silver);}
+.editor-pool-scroll{flex:1;overflow-y:auto;padding:2px 0;}
+.editor-pool-scroll::-webkit-scrollbar{width:3px;}
+.editor-pool-scroll::-webkit-scrollbar-thumb{background:rgba(200,212,232,.12);border-radius:2px;}
+.pool-rider{padding:5px 11px;font-size:11px;color:var(--silver);cursor:pointer;
+  transition:background .12s;display:flex;align-items:center;gap:4px;}
+.pool-rider:hover{background:rgba(200,212,232,.07);}
+.pool-rider.used{color:rgba(200,212,232,.26);cursor:default;}
+.pool-rider.used:hover{background:transparent;}
+.pool-used-badge{font-size:7.5px;color:rgba(200,212,232,.26);margin-left:auto;}
+.editor-content{flex:1;overflow-y:auto;padding:12px 16px;display:flex;flex-direction:column;gap:5px;}
+.editor-content::-webkit-scrollbar{width:4px;}
+.editor-content::-webkit-scrollbar-thumb{background:rgba(200,212,232,.12);border-radius:2px;}
+.ed-sectie-hdr{display:flex;align-items:center;gap:7px;font-family:"Bebas Neue",cursive;
+  font-size:11px;letter-spacing:3px;padding:5px 0 3px;
+  border-bottom:1px solid rgba(200,220,240,.08);margin-top:5px;}
+.ed-sectie-hdr:first-child{margin-top:0;}
+.ed-sectie-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.ed-rit-row{display:flex;align-items:flex-start;gap:7px;
+  background:var(--navy-card);border:1px solid rgba(200,220,240,.08);border-radius:7px;padding:7px 9px;}
+.ed-rit-num{font-family:"Bebas Neue",cursive;font-size:24px;color:var(--gold);min-width:30px;line-height:1;padding-top:2px;}
+.ed-slots{display:flex;gap:6px;flex:1;flex-wrap:wrap;}
+.ed-slot{flex:1;min-width:95px;display:flex;flex-direction:column;gap:2px;}
+.slot-lbl{font-size:7.5px;letter-spacing:1px;font-family:"Bebas Neue",cursive;
+  display:flex;align-items:center;gap:3px;margin-bottom:1px;}
+.sd{width:5px;height:5px;border-radius:50%;}
+.sd.wit{background:#fff;}.sd.geel{background:var(--geel-baan);}.sd.rood{background:var(--red-baan);}
+.st-wit{color:rgba(255,255,255,.5);}.st-geel{color:var(--geel-baan);}.st-rood{color:var(--red-baan);}
+.slot-sel{width:100%;background:rgba(0,0,0,.3);border:1px solid rgba(200,220,240,.14);
+  border-radius:4px;color:var(--silver);font-size:10.5px;padding:3px 5px;
+  font-family:"DM Sans",sans-serif;cursor:pointer;outline:none;transition:border-color .15s;}
+.slot-sel:focus{border-color:var(--accent);}
+.slot-sel option{background:#111e38;}
+.bi-row{display:flex;flex-direction:column;gap:1px;margin-top:3px;}
+.bi-lbl{font-size:7.5px;letter-spacing:1px;color:rgba(240,160,100,.55);text-transform:uppercase;}
+.bi-inp{width:100%;background:rgba(0,0,0,.28);border:1px solid rgba(240,112,64,.17);
+  border-radius:3px;color:rgba(240,180,150,.9);font-size:10px;padding:3px 5px;
+  font-family:"DM Sans",sans-serif;outline:none;transition:border-color .15s;}
+.bi-inp:focus{border-color:rgba(240,112,64,.4);}
+.ed-del{width:21px;height:21px;border-radius:4px;cursor:pointer;font-size:11px;
+  border:1px solid rgba(232,64,64,.2);background:rgba(232,64,64,.05);
+  color:rgba(232,64,64,.48);display:flex;align-items:center;justify-content:center;
+  transition:all .15s;flex-shrink:0;margin-top:3px;}
+.ed-del:hover{background:rgba(232,64,64,.18);color:var(--red-baan);border-color:var(--red-baan);}
+.ed-add{display:flex;align-items:center;justify-content:center;gap:5px;padding:7px;
+  border:1px dashed rgba(200,220,240,.13);border-radius:7px;cursor:pointer;
+  color:rgba(200,220,240,.28);font-size:10.5px;letter-spacing:1px;transition:all .15s;}
+.ed-add:hover{border-color:rgba(74,142,202,.38);color:var(--accent);background:rgba(74,142,202,.05);}
+.aank-overlay{display:none;position:fixed;inset:0;z-index:300;
+  background:rgba(3,8,18,.92);backdrop-filter:blur(8px);align-items:center;justify-content:center;cursor:pointer;}
+.aank-overlay.open{display:flex;}
+.aank-card{border-radius:18px;overflow:hidden;max-width:760px;width:92vw;
+  box-shadow:0 30px 80px rgba(0,0,0,.7);cursor:default;border:1px solid rgba(200,220,240,.10);}
+.aank-inner{display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:13px;padding:48px 42px 34px;text-align:center;}
+.aank-close{padding:10px;text-align:center;font-size:9px;letter-spacing:2px;text-transform:uppercase;
+  color:rgba(200,220,240,.22);border-top:1px solid rgba(200,220,240,.08);background:rgba(0,0,0,.2);}
+.battle-bg{background:linear-gradient(145deg,#1a0a08,#2a0e06,#1a0a08);}
+.b-emoji{font-size:62px;line-height:1;}
+.b-title{font-family:"Bebas Neue",cursive;font-size:56px;letter-spacing:6px;color:#f08060;line-height:1;text-shadow:0 0 40px rgba(232,80,40,.5);}
+.b-sub{font-family:"Bebas Neue",cursive;font-size:19px;letter-spacing:4px;color:rgba(240,180,150,.6);}
+.b-div{width:50px;height:2px;border-radius:2px;background:linear-gradient(90deg,transparent,#f08060,transparent);}
+.driekm-bg{background:linear-gradient(145deg,#071a0e,#0a2012,#071a0e);}
+.d-emoji{font-size:62px;line-height:1;}
+.d-dist{font-family:"Bebas Neue",cursive;font-size:90px;letter-spacing:4px;color:#6de898;line-height:.9;text-shadow:0 0 50px rgba(56,192,96,.42);}
+.d-lbl{font-family:"Bebas Neue",cursive;font-size:17px;letter-spacing:6px;color:rgba(109,232,152,.48);margin-top:-5px;}
+.d-div{width:50px;height:2px;border-radius:2px;background:linear-gradient(90deg,transparent,#6de898,transparent);}
+.d-names{font-family:"Bebas Neue",cursive;font-size:28px;letter-spacing:3px;color:rgba(109,232,152,.92);}
+.d-when{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(109,232,152,.3);margin-top:5px;}
 </style>
 </head>
 <body>
-
-<!-- HEADER -->
 <header>
   <div class="logo-circle">DE<br>ZILV<br>BAL</div>
-  <div>
-    <div class="header-title">De <span>Zilveren</span> Bal</div>
-    <div class="header-sub">Hoofdtoernooi 2026</div>
-  </div>
-
-  <div class="gender-toggle">
-    <button class="gender-btn dames active" id="btnDames" onclick="setGender('dames')">DAMES</button>
-    <button class="gender-btn heren" id="btnHeren" onclick="setGender('heren')">HEREN</button>
-  </div>
-
-  <div class="mode-toggle">
-    <span class="mode-label">MODUS</span>
-    <button class="mode-btn active" id="btnView" onclick="setMode('view')">PRESENTATIE</button>
-    <button class="mode-btn" id="btnEdit" onclick="setMode('edit')">STARTLIJST INVULLEN</button>
-  </div>
-  <button class="aankondiging-btn battle" onclick="openAankondiging('battle')">⚔️ BATTLE</button>
-  <button class="aankondiging-btn driekm" onclick="openAankondiging('driekm')">🏁 3KM</button>
-
+  <div><div class="hdr-title">De <span>Zilveren</span> Bal</div><div class="hdr-sub">Hoofdtoernooi 2026</div></div>
+  <div class="hdr-sep"></div>
+  <button class="mode-btn active" id="btnView" onclick="setMode('view')">PRESENTATIE</button>
+  <button class="mode-btn" id="btnEdit" onclick="setMode('edit')">PROGRAMMA INVULLEN</button>
+  <div class="hdr-sep"></div>
+  <button class="spec-btn battle" onclick="openAankondiging('battle')">&#9876; BATTLE</button>
+  <button class="spec-btn driekm" onclick="openAankondiging('driekm')">&#127937; 3KM</button>
   <div class="header-nav">
-    <span class="nav-hint">RIT</span>
+    <span class="nav-hint">BLOK</span>
     <button class="nav-btn" id="btnPrev" onclick="navigate(-1)">&#8592;</button>
-    <div class="rit-counter" id="ritCounter">— / —</div>
+    <div class="blok-counter" id="blokCounter">&#8212; / &#8212;</div>
     <button class="nav-btn" id="btnNext" onclick="navigate(1)">&#8594;</button>
   </div>
-
   <div class="zoom-group">
     <span class="zoom-label">SCHERM</span>
-    <button class="zoom-btn" onclick="changeZoom(-5)">−</button>
+    <button class="zoom-btn" onclick="changeZoom(-5)">&#8722;</button>
     <div class="zoom-pct" id="zoomPct">100%</div>
     <button class="zoom-btn" onclick="changeZoom(+5)">+</button>
     <div class="zoom-presets">
-      <button class="zoom-preset" id="zp-s" onclick="setZoom(75)">13″</button>
-      <button class="zoom-preset" id="zp-m" onclick="setZoom(90)">17″</button>
-      <button class="zoom-preset active" id="zp-l" onclick="setZoom(100)">22″</button>
+      <button class="zoom-preset" id="zp-s" onclick="setZoom(75)">13&#8243;</button>
+      <button class="zoom-preset" id="zp-m" onclick="setZoom(90)">17&#8243;</button>
+      <button class="zoom-preset active" id="zp-l" onclick="setZoom(100)">22&#8243;</button>
     </div>
   </div>
-  <div class="zoom-divider"></div>
+  <div class="zoom-sep"></div>
   <div class="zoom-group">
     <span class="zoom-label">TILES</span>
-    <button class="zoom-btn" onclick="changeTileZoom(-5)">−</button>
+    <button class="zoom-btn" onclick="changeTileZoom(-5)">&#8722;</button>
     <div class="zoom-pct" id="tileZoomPct">100%</div>
     <button class="zoom-btn" onclick="changeTileZoom(+5)">+</button>
   </div>
 </header>
-
-<!-- MAIN VIEW -->
 <div class="main">
   <div class="panel-left">
-    <div class="panel-left-header">
-      <span>STARTLIJST</span>
-    </div>
-    <div class="startlist-scroll" id="startlistScroll"></div>
+    <div class="pl-hdr">PROGRAMMA</div>
+    <div class="sl-scroll" id="slScroll"></div>
   </div>
-  <div class="panel-right" id="panelRight">
-    <div id="tileZoomWrap">
-      <div id="tileZoomInner">
-        <div class="rit-cards" id="ritCards"></div>
-        <div class="kb-hint">
-          <span class="kkey">←</span><span>vorige</span>
-          <span style="margin:0 3px;opacity:.4">·</span>
-          <span class="kkey">→</span><span>volgende rit</span>
-        </div>
+  <div class="panel-right">
+    <div id="tileZoomWrap"><div id="tileZoomInner">
+      <div class="rit-cards" id="ritCards"></div>
+      <div class="kb-hint">
+        <span class="kkey">&#8592;</span><span>vorige</span>
+        <span style="margin:0 5px;opacity:.3">&#183;</span>
+        <span class="kkey">&#8594;</span><span>volgende</span>
       </div>
-    </div>
+    </div></div>
   </div>
 </div>
-
-<!-- EDITOR OVERLAY -->
 <div class="editor-overlay" id="editorOverlay">
   <div class="editor-header">
-    <div class="editor-title">Startlijst <span id="editorGenderTitle">Dames</span> invullen</div>
-    <button class="editor-save" onclick="saveAndClose()">✓ OPSLAAN & SLUITEN</button>
-    <button class="editor-close" onclick="closeEditor()">✕ SLUITEN</button>
+    <div class="editor-title">Programma <span>invullen</span></div>
+    <button class="ed-save" onclick="saveAndClose()">&#10003; OPSLAAN &amp; SLUITEN</button>
+    <button class="ed-close" onclick="closeEditor()">&#10005; SLUITEN</button>
   </div>
   <div class="editor-body">
     <div class="editor-pool">
-      <div class="editor-pool-header" id="poolHeader">DEELNEMERS</div>
+      <div class="pool-tabs">
+        <div class="pool-tab dames active" id="ptDames" onclick="setPoolTab('dames')">DAMES</div>
+        <div class="pool-tab heren" id="ptHeren" onclick="setPoolTab('heren')">HEREN</div>
+        <div class="pool-tab div" id="ptDiv" onclick="setPoolTab('div')">OVERIG</div>
+      </div>
       <div class="editor-pool-scroll" id="poolList"></div>
     </div>
-    <div class="editor-ritten" id="editorRitten"></div>
+    <div class="editor-content" id="editorContent"></div>
   </div>
 </div>
-
+<div class="aank-overlay" id="aankOverlay" onclick="closeAankondiging()">
+  <div class="aank-card" id="aankCard">
+    <div class="aank-inner" id="aankInner"></div>
+    <div class="aank-close">Klik om te sluiten &#183; ESC</div>
+  </div>
+</div>
 <script>
-// ══ DEELNEMERS ════════════════════════════════════════════════════════════════
-const DEELNEMERS = {
-  dames: [
-    "Isabel Grevelt","Anna Boersma","Michelle de Jong","Dione Voskamp",
-    "Amber Duizendstraal","Henny de Vries","Pien Hersman","Jenna Larter",
-    "Ying Chu Chen","Hanna Bíro","Gioya Lancee","Amy van der Meer",
-    "Esther Kiel","Tessa Snoek","Myrthe de Boer","Sacha van der Weide",
-    "Yasmine Bouaziz","Cerinthe de Jonge","Mara Vergeer","Marika de Glee",
-    "Jasmijn ter Haar","Jade Kamps","Daphne van Kooten","Tessa Boogaard",
-    "Elanne de Vries (reserve)","Danique Happel (reserve)"
-  ],
-  heren: [
-    "Stefan Westenbroek","Mika van Essen","Johan Talsma","Jim Dhore",
-    "Willem Bekkema","Niklas Reinders","Ted Dalrymple","Sven Kemp",
-    "Yuma Murakami","Bjørn Magnussen","Henrik Fagerli Rukke","Jordan Stolz",
-    "Yevgeniy Koshkin","Ignaz Gschwenter","Max Bergsma","Mats van den Bos",
-    "Jasper Sinke","Pim Stuij","Remon Tamminga","Seb van Schelven",
-    "Daan van Zwienen","Hannes van De Wetering","Bjarne den Besten",
-    "Floris Hardeveld","Janno Botman (reserve)","Roel Regts (reserve)",
-    "Niels de Kruijk (reserve)"
-  ]
+const DEELNEMERS={
+  dames:["Isabel Grevelt","Anna Boersma","Michelle de Jong","Dione Voskamp","Amber Duizendstraal","Henny de Vries","Pien Hersman","Femke Kok","Jenna Larter","Ying Chu Chen","Hanna Biro","Gioya Lancee","Amy van der Meer","Esther Kiel","Tessa Snoek","Myrthe de Boer","Sacha van der Weide","Yasmine Bouaziz","Cerinthe de Jonge","Mara Vergeer","Marika de Glee","Jasmijn ter Haar","Jade Kamps","Daphne van Kooten","Tessa Boogaard","Elanne de Vries"],
+  heren:["Stefan Westenbroek","Mika van Essen","Johan Talsma","Jim Dhore","Willem Bekkema","Niklas Reinders","Ted Dalrymple","Sven Kemp","Yuma Murakami","Bjorn Magnussen","Henrik Fagerli Rukke","Jordan Stolz","Yevgeniy Koshkin","Ignaz Gschwenter","Max Bergsma","Mats van den Bos","Jasper Sinke","Pim Stuij","Remon Tamminga","Seb van Schelven","Daan van Zwienen","Hannes van De Wetering","Bjarne den Besten","Floris Hardeveld","Janno Botman","Roel Regts","Niels de Kruijk"],
+  div:["Joy","Jenning","Mascotte 1","Mascotte 2","Mascotte 3","Andere deelnemer"]
 };
-
-const AFSCHEID = ["Dione Voskamp","Femke Kok","Esther Kiel","Tessa Snoek"];
-
-const INFO = {
-  // ── DAMES ──────────────────────────────────────────────────────────────────
-  "Isabel Grevelt":       { pr100:"10.82", loc100:"Leeuwarden", pr500:"37.46", loc500:"Heerenveen", tus100:"10.55", zb25:"9e", zb24:"—", zb23:"17e", zb22:"18e" },
-  "Anna Boersma":         { pr100:"10.42", loc100:"Leeuwarden", pr500:"37.11", loc500:"SLC",         tus100:"10.37", zb25:"2e", zb24:"3e", zb23:"4e", zb22:"3e" },
-  "Michelle de Jong":     { pr100:"10.52", loc100:"Leeuwarden", pr500:"37.48", loc500:"Calgary",     tus100:"10.62", zb25:"6e", zb24:"—", zb23:"7e", zb22:"7e" },
-  "Dione Voskamp":        { pr100:"10.42", loc100:"Leeuwarden", pr500:"37.51", loc500:"Calgary",     tus100:"10.42", zb25:"3e", zb24:"1e", zb23:"1e", zb22:"1e" },
-  "Amber Duizendstraal":  { pr100:"10.94", loc100:"Leeuwarden", pr500:"38.21", loc500:"Heerenveen", tus100:"10.72", zb25:"12e", zb24:"24e", zb23:"22e", zb22:"—" },
-  "Henny de Vries":       { pr100:"11.08", loc100:"Leeuwarden", pr500:"39.00", loc500:"Heerenveen", tus100:"11.04", zb25:"19e", zb24:"—", zb23:"35e", zb22:"22e" },
-  "Pien Hersman":         { pr100:"10.75", loc100:"Leeuwarden", pr500:"37.76", loc500:"Heerenveen", tus100:"10.67", zb25:"—", zb24:"6e", zb23:"12e", zb22:"—" },
-  "Femke Kok":            { pr100:"10.46", loc100:"Leeuwarden", pr500:"36.09", loc500:"SLC",         tus100:"10.18", zb25:"1e", zb24:"2e", zb23:"2e", zb22:"2e" },
-  "Jenna Larter":         { pr100:"10.81", loc100:"Calgary",    pr500:"38.05", loc500:"SLC",         tus100:"10.68", zb25:"—", zb24:"—", zb23:"—", zb22:"—" },
-  "Ying Chu Chen":        { pr100:"10.51", loc100:"Harbin",     pr500:"37.14", loc500:"Calgary",     tus100:"10.30", zb25:"—", zb24:"—", zb23:"—", zb22:"—" },
-  "Hanna Bíro":           { pr100:"11.10", loc100:"Inzell",     pr500:"38.99", loc500:"Calgary",     tus100:"10.77", zb25:"—", zb24:"—", zb23:"—", zb22:"—" },
-  "Gioya Lancee":         { pr100:"12.64", loc100:"Utrecht",    pr500:"38.97", loc500:"Heerenveen", tus100:"11.01", zb25:"—", zb24:"—", zb23:"—", zb22:"—" },
-  "Amy van der Meer":     { pr100:"11.10", loc100:"Leeuwarden", pr500:"39.76", loc500:"Heerenveen", tus100:"11.04", zb25:"—", zb24:"—", zb23:"25e", zb22:"—" },
-  "Esther Kiel":          { pr100:"11.56", loc100:"Leeuwarden", pr500:"39.74", loc500:"Heerenveen", tus100:"11.16", zb25:"—", zb24:"—", zb23:"—", zb22:"—" },
-  "Tessa Snoek":          { pr100:"11.73", loc100:"Amsterdam",  pr500:"41.62", loc500:"Heerenveen", tus100:"11.59", zb25:"—", zb24:"—", zb23:"—", zb22:"—" },
-  "Myrthe de Boer":       { pr100:"11.25", loc100:"Leeuwarden", pr500:"38.77", loc500:"Heerenveen", tus100:"11.01", zb25:"—", zb24:"—", zb23:"—", zb22:"—" },
-  "Sacha van der Weide":  { pr100:"10.61", loc100:"Leeuwarden", pr500:"38.68", loc500:"Heerenveen", tus100:"10.66", zb25:"10e", zb24:"—", zb23:"5e", zb22:"6e" },
-  "Yasmine Bouaziz":      { pr100:"10.76", loc100:"Leeuwarden", pr500:"39.15", loc500:"Heerenveen", tus100:"10.72", zb25:"11e", zb24:"4e", zb23:"20e", zb22:"—" },
-  "Cerinthe de Jonge":    { pr100:"11.16", loc100:"Heerenveen", pr500:"40.85", loc500:"Heerenveen", tus100:"11.23", zb25:"21e", zb24:"15e", zb23:"—", zb22:"—" },
-  "Mara Vergeer":         { pr100:"11.31", loc100:"Den Haag",   pr500:"41.05", loc500:"Heerenveen", tus100:"11.28", zb25:"—", zb24:"—", zb23:"—", zb22:"—" },
-  "Marika de Glee":       { pr100:"11.28", loc100:"Den Haag",   pr500:"39.99", loc500:"Heerenveen", tus100:"11.15", zb25:"—", zb24:"—", zb23:"—", zb22:"—" },
-  "Jasmijn ter Haar":     { pr100:"10.91", loc100:"Heerenveen", pr500:"39.91", loc500:"Heerenveen", tus100:"10.99", zb25:"—", zb24:"21e", zb23:"34e", zb22:"—" },
-  "Jade Kamps":           { pr100:"11.27", loc100:"Alkmaar",    pr500:"40.78", loc500:"Heerenveen", tus100:"11.40", zb25:"—", zb24:"—", zb23:"—", zb22:"—" },
-  "Daphne van Kooten":    { pr100:"11.31", loc100:"Den Haag",   pr500:"41.94", loc500:"Enschede",   tus100:"11.18", zb25:"—", zb24:"—", zb23:"—", zb22:"—" },
-  "Tessa Boogaard":       { pr100:"10.99", loc100:"Leeuwarden", pr500:"38.78", loc500:"Heerenveen", tus100:"10.94", zb25:"—", zb24:"—", zb23:"—", zb22:"24e" },
-  "Elanne de Vries":      { pr100:"11.14", loc100:"Heerenveen", pr500:"39.38", loc500:"Heerenveen", tus100:"11.00", zb25:"17e", zb24:"—", zb23:"—", zb22:"—" },
-  // ── HEREN ──────────────────────────────────────────────────────────────────
-  "Stefan Westenbroek":   { pr100:"9.62", loc100:"Leeuwarden", pr500:"34.39", loc500:"SLC",         tus100:"9.59", zb25:"6e", zb24:"3e", zb23:"5e", zb22:"4e" },
-  "Mika van Essen":       { pr100:"9.98", loc100:"Deventer",   pr500:"35.25", loc500:"Heerenveen", tus100:"9.90", zb25:"23e", zb24:"—", zb23:"16e", zb22:"—" },
-  "Johan Talsma":         { pr100:"9.78", loc100:"Leeuwarden", pr500:"34.83", loc500:"Heerenveen", tus100:"9.66", zb25:"9e", zb24:"9e", zb23:"21e", zb22:"11e" },
-  "Jim Dhore":            { pr100:"9.64", loc100:"Leeuwarden", pr500:"35.79", loc500:"Heerenveen", tus100:"9.73", zb25:"18e", zb24:"1e", zb23:"4e", zb22:"6e" },
-  "Willem Bekkema":       { pr100:"9.89", loc100:"Heerenveen", pr500:"36.14", loc500:"Heerenveen", tus100:"9.94", zb25:"—", zb24:"—", zb23:"26e", zb22:"—" },
-  "Niklas Reinders":      { pr100:"10.15", loc100:"Heerenveen", pr500:"35.62", loc500:"Heerenveen",tus100:"10.08", zb25:"—", zb24:"—", zb23:"—", zb22:"—" },
-  "Ted Dalrymple":        { pr100:"11.62", loc100:"Den Haag",   pr500:"35.49", loc500:"Heerenveen", tus100:"9.99", zb25:"—", zb24:"—", zb23:"—", zb22:"—" },
-  "Sven Kemp":            { pr100:"10.00", loc100:"Heerenveen", pr500:"35.09", loc500:"Heerenveen", tus100:"9.91", zb25:"17e", zb24:"12e", zb23:"23e", zb22:"—" },
-  "Yuma Murakami":        { pr100:"9.46", loc100:"Leeuwarden", pr500:"33.89", loc500:"Calgary",     tus100:"9.49", zb25:"—", zb24:"—", zb23:"1e", zb22:"—" },
-  "Bjørn Magnussen":      { pr100:"9.72", loc100:"Leeuwarden", pr500:"33.99", loc500:"SLC",         tus100:"9.60", zb25:"5e", zb24:"6e", zb23:"8e", zb22:"1e" },
-  "Henrik Fagerli Rukke": { pr100:"9.82", loc100:"Leeuwarden", pr500:"34.47", loc500:"SLC",         tus100:"9.74", zb25:"—", zb24:"—", zb23:"7e", zb22:"7e" },
-  "Jordan Stolz":         { pr100:"9.54", loc100:"Leeuwarden", pr500:"33.69", loc500:"Calgary",     tus100:"9.45", zb25:"3e", zb24:"2e", zb23:"3e", zb22:"—" },
-  "Yevgeniy Koshkin":     { pr100:"9.31", loc100:"Astana",     pr500:"33.67", loc500:"SLC",         tus100:"9.38", zb25:"1e", zb24:"—", zb23:"2e", zb22:"—" },
-  "Ignaz Gschwenter":     { pr100:"10.05", loc100:"Leeuwarden", pr500:"35.20", loc500:"SLC",        tus100:"9.84", zb25:"—", zb24:"—", zb23:"—", zb22:"12e" },
-  "Max Bergsma":          { pr100:"10.03", loc100:"Leeuwarden", pr500:"35.67", loc500:"Heerenveen", tus100:"9.97", zb25:"—", zb24:"14e", zb23:"—", zb22:"—" },
-  "Mats van den Bos":     { pr100:"9.85", loc100:"Leeuwarden", pr500:"34.58", loc500:"Heerenveen",  tus100:"9.65", zb25:"12e", zb24:"13e", zb23:"—", zb22:"26e" },
-  "Jasper Sinke":         { pr100:"9.95", loc100:"Leeuwarden", pr500:"35.93", loc500:"Heerenveen",  tus100:"9.97", zb25:"—", zb24:"24e", zb23:"—", zb22:"—" },
-  "Pim Stuij":            { pr100:"10.08", loc100:"Tilburg",   pr500:"35.47", loc500:"Heerenveen",  tus100:"9.99", zb25:"22e", zb24:"20e", zb23:"31e", zb22:"21e" },
-  "Remon Tamminga":       { pr100:"10.25", loc100:"Tilburg",   pr500:"37.14", loc500:"Heerenveen",  tus100:"10.24", zb25:"—", zb24:"—", zb23:"—", zb22:"—" },
-  "Seb van Schelven":     { pr100:"10.16", loc100:"Tilburg",   pr500:"37.36", loc500:"Heerenveen",  tus100:"10.22", zb25:"—", zb24:"—", zb23:"—", zb22:"—" },
-  "Daan van Zwienen":     { pr100:"10.04", loc100:"Heerenveen", pr500:"36.63", loc500:"Heerenveen", tus100:"10.09", zb25:"—", zb24:"22e", zb23:"—", zb22:"—" },
-  "Hannes van De Wetering":{ pr100:"10.23", loc100:"Den Haag", pr500:"37.50", loc500:"Enschede",    tus100:"10.22", zb25:"—", zb24:"—", zb23:"—", zb22:"—" },
-  "Bjarne den Besten":    { pr100:"10.52", loc100:"Den Haag",  pr500:"38.25", loc500:"Heerenveen",  tus100:"10.60", zb25:"—", zb24:"—", zb23:"—", zb22:"—" },
-  "Floris Hardeveld":     { pr100:"9.90", loc100:"Tilburg",    pr500:"37.20", loc500:"Heerenveen",  tus100:"10.10", zb25:"21e", zb24:"—", zb23:"—", zb22:"—" },
-  "Floris van Hardeveld": { pr100:"9.90", loc100:"Tilburg",    pr500:"37.20", loc500:"Heerenveen",  tus100:"10.10", zb25:"21e", zb24:"—", zb23:"—", zb22:"—" },
-  "Janno Botman":         { pr100:"9.70", loc100:"Leeuwarden", pr500:"34.35", loc500:"SLC",         tus100:"9.66", zb25:"7e", zb24:"4e", zb23:"6e", zb22:"—" },
-  "Jesper van Mieghem":   { pr100:"10.18", loc100:"Leeuwarden", pr500:"35.84", loc500:"Heerenveen", tus100:"10.00", zb25:"20e", zb24:"—", zb23:"—", zb22:"—" },
-  "Roel Regts":           { pr100:"10.11", loc100:"Tilburg",   pr500:"36.65", loc500:"Heerenveen",  tus100:"10.03", zb25:"19e", zb24:"—", zb23:"—", zb22:"—" },
+const AFSCHEID=["Dione Voskamp","Femke Kok","Esther Kiel","Tessa Snoek"];
+const INFO={
+  "Isabel Grevelt":{pr100:"10.82",loc100:"Leeuwarden",pr500:"37.46",loc500:"Heerenveen",tus100:"10.55",zb25:"9e",zb24:"-",zb23:"17e",zb22:"18e"},
+  "Anna Boersma":{pr100:"10.42",loc100:"Leeuwarden",pr500:"37.11",loc500:"SLC",tus100:"10.37",zb25:"2e",zb24:"3e",zb23:"4e",zb22:"3e"},
+  "Michelle de Jong":{pr100:"10.52",loc100:"Leeuwarden",pr500:"37.48",loc500:"Calgary",tus100:"10.62",zb25:"6e",zb24:"-",zb23:"7e",zb22:"7e"},
+  "Dione Voskamp":{pr100:"10.42",loc100:"Leeuwarden",pr500:"37.51",loc500:"Calgary",tus100:"10.42",zb25:"3e",zb24:"1e",zb23:"1e",zb22:"1e"},
+  "Amber Duizendstraal":{pr100:"10.94",loc100:"Leeuwarden",pr500:"38.21",loc500:"Heerenveen",tus100:"10.72",zb25:"12e",zb24:"24e",zb23:"22e",zb22:"-"},
+  "Henny de Vries":{pr100:"11.08",loc100:"Leeuwarden",pr500:"39.00",loc500:"Heerenveen",tus100:"11.04",zb25:"19e",zb24:"-",zb23:"35e",zb22:"22e"},
+  "Pien Hersman":{pr100:"10.75",loc100:"Leeuwarden",pr500:"37.76",loc500:"Heerenveen",tus100:"10.67",zb25:"-",zb24:"6e",zb23:"12e",zb22:"-"},
+  "Femke Kok":{pr100:"10.46",loc100:"Leeuwarden",pr500:"36.09",loc500:"SLC",tus100:"10.18",zb25:"1e",zb24:"2e",zb23:"2e",zb22:"2e"},
+  "Jenna Larter":{pr100:"10.81",loc100:"Calgary",pr500:"38.05",loc500:"SLC",tus100:"10.68",zb25:"-",zb24:"-",zb23:"-",zb22:"-"},
+  "Ying Chu Chen":{pr100:"10.51",loc100:"Harbin",pr500:"37.14",loc500:"Calgary",tus100:"10.30",zb25:"-",zb24:"-",zb23:"-",zb22:"-"},
+  "Hanna Biro":{pr100:"11.10",loc100:"Inzell",pr500:"38.99",loc500:"Calgary",tus100:"10.77",zb25:"-",zb24:"-",zb23:"-",zb22:"-"},
+  "Gioya Lancee":{pr100:"12.64",loc100:"Utrecht",pr500:"38.97",loc500:"Heerenveen",tus100:"11.01",zb25:"-",zb24:"-",zb23:"-",zb22:"-"},
+  "Amy van der Meer":{pr100:"11.10",loc100:"Leeuwarden",pr500:"39.76",loc500:"Heerenveen",tus100:"11.04",zb25:"-",zb24:"-",zb23:"25e",zb22:"-"},
+  "Esther Kiel":{pr100:"11.56",loc100:"Leeuwarden",pr500:"39.74",loc500:"Heerenveen",tus100:"11.16",zb25:"-",zb24:"-",zb23:"-",zb22:"-"},
+  "Tessa Snoek":{pr100:"11.73",loc100:"Amsterdam",pr500:"41.62",loc500:"Heerenveen",tus100:"11.59",zb25:"-",zb24:"-",zb23:"-",zb22:"-"},
+  "Myrthe de Boer":{pr100:"11.25",loc100:"Leeuwarden",pr500:"38.77",loc500:"Heerenveen",tus100:"11.01",zb25:"-",zb24:"-",zb23:"-",zb22:"-"},
+  "Sacha van der Weide":{pr100:"10.61",loc100:"Leeuwarden",pr500:"38.68",loc500:"Heerenveen",tus100:"10.66",zb25:"10e",zb24:"-",zb23:"5e",zb22:"6e"},
+  "Yasmine Bouaziz":{pr100:"10.76",loc100:"Leeuwarden",pr500:"39.15",loc500:"Heerenveen",tus100:"10.72",zb25:"11e",zb24:"4e",zb23:"20e",zb22:"-"},
+  "Cerinthe de Jonge":{pr100:"11.16",loc100:"Heerenveen",pr500:"40.85",loc500:"Heerenveen",tus100:"11.23",zb25:"21e",zb24:"15e",zb23:"-",zb22:"-"},
+  "Mara Vergeer":{pr100:"11.31",loc100:"Den Haag",pr500:"41.05",loc500:"Heerenveen",tus100:"11.28",zb25:"-",zb24:"-",zb23:"-",zb22:"-"},
+  "Marika de Glee":{pr100:"11.28",loc100:"Den Haag",pr500:"39.99",loc500:"Heerenveen",tus100:"11.15",zb25:"-",zb24:"-",zb23:"-",zb22:"-"},
+  "Jasmijn ter Haar":{pr100:"10.91",loc100:"Heerenveen",pr500:"39.91",loc500:"Heerenveen",tus100:"10.99",zb25:"-",zb24:"21e",zb23:"34e",zb22:"-"},
+  "Jade Kamps":{pr100:"11.27",loc100:"Alkmaar",pr500:"40.78",loc500:"Heerenveen",tus100:"11.40",zb25:"-",zb24:"-",zb23:"-",zb22:"-"},
+  "Daphne van Kooten":{pr100:"11.31",loc100:"Den Haag",pr500:"41.94",loc500:"Enschede",tus100:"11.18",zb25:"-",zb24:"-",zb23:"-",zb22:"-"},
+  "Tessa Boogaard":{pr100:"10.99",loc100:"Leeuwarden",pr500:"38.78",loc500:"Heerenveen",tus100:"10.94",zb25:"-",zb24:"-",zb23:"-",zb22:"24e"},
+  "Elanne de Vries":{pr100:"11.14",loc100:"Heerenveen",pr500:"39.38",loc500:"Heerenveen",tus100:"11.00",zb25:"17e",zb24:"-",zb23:"-",zb22:"-"},
+  "Stefan Westenbroek":{pr100:"9.62",loc100:"Leeuwarden",pr500:"34.39",loc500:"SLC",tus100:"9.59",zb25:"6e",zb24:"3e",zb23:"5e",zb22:"4e"},
+  "Mika van Essen":{pr100:"9.98",loc100:"Deventer",pr500:"35.25",loc500:"Heerenveen",tus100:"9.90",zb25:"23e",zb24:"-",zb23:"16e",zb22:"-"},
+  "Johan Talsma":{pr100:"9.78",loc100:"Leeuwarden",pr500:"34.83",loc500:"Heerenveen",tus100:"9.66",zb25:"9e",zb24:"9e",zb23:"21e",zb22:"11e"},
+  "Jim Dhore":{pr100:"9.64",loc100:"Leeuwarden",pr500:"35.79",loc500:"Heerenveen",tus100:"9.73",zb25:"18e",zb24:"1e",zb23:"4e",zb22:"6e"},
+  "Willem Bekkema":{pr100:"9.89",loc100:"Heerenveen",pr500:"36.14",loc500:"Heerenveen",tus100:"9.94",zb25:"-",zb24:"-",zb23:"26e",zb22:"-"},
+  "Niklas Reinders":{pr100:"10.15",loc100:"Heerenveen",pr500:"35.62",loc500:"Heerenveen",tus100:"10.08",zb25:"-",zb24:"-",zb23:"-",zb22:"-"},
+  "Ted Dalrymple":{pr100:"11.62",loc100:"Den Haag",pr500:"35.49",loc500:"Heerenveen",tus100:"9.99",zb25:"-",zb24:"-",zb23:"-",zb22:"-"},
+  "Sven Kemp":{pr100:"10.00",loc100:"Heerenveen",pr500:"35.09",loc500:"Heerenveen",tus100:"9.91",zb25:"17e",zb24:"12e",zb23:"23e",zb22:"-"},
+  "Yuma Murakami":{pr100:"9.46",loc100:"Leeuwarden",pr500:"33.89",loc500:"Calgary",tus100:"9.49",zb25:"-",zb24:"-",zb23:"1e",zb22:"-"},
+  "Bjorn Magnussen":{pr100:"9.72",loc100:"Leeuwarden",pr500:"33.99",loc500:"SLC",tus100:"9.60",zb25:"5e",zb24:"6e",zb23:"8e",zb22:"1e"},
+  "Henrik Fagerli Rukke":{pr100:"9.82",loc100:"Leeuwarden",pr500:"34.47",loc500:"SLC",tus100:"9.74",zb25:"-",zb24:"-",zb23:"7e",zb22:"7e"},
+  "Jordan Stolz":{pr100:"9.54",loc100:"Leeuwarden",pr500:"33.69",loc500:"Calgary",tus100:"9.45",zb25:"3e",zb24:"2e",zb23:"3e",zb22:"-"},
+  "Yevgeniy Koshkin":{pr100:"9.31",loc100:"Astana",pr500:"33.67",loc500:"SLC",tus100:"9.38",zb25:"1e",zb24:"-",zb23:"2e",zb22:"-"},
+  "Ignaz Gschwenter":{pr100:"10.05",loc100:"Leeuwarden",pr500:"35.20",loc500:"SLC",tus100:"9.84",zb25:"-",zb24:"-",zb23:"-",zb22:"12e"},
+  "Max Bergsma":{pr100:"10.03",loc100:"Leeuwarden",pr500:"35.67",loc500:"Heerenveen",tus100:"9.97",zb25:"-",zb24:"14e",zb23:"-",zb22:"-"},
+  "Mats van den Bos":{pr100:"9.85",loc100:"Leeuwarden",pr500:"34.58",loc500:"Heerenveen",tus100:"9.65",zb25:"12e",zb24:"13e",zb23:"-",zb22:"26e"},
+  "Jasper Sinke":{pr100:"9.95",loc100:"Leeuwarden",pr500:"35.93",loc500:"Heerenveen",tus100:"9.97",zb25:"-",zb24:"24e",zb23:"-",zb22:"-"},
+  "Pim Stuij":{pr100:"10.08",loc100:"Tilburg",pr500:"35.47",loc500:"Heerenveen",tus100:"9.99",zb25:"22e",zb24:"20e",zb23:"31e",zb22:"21e"},
+  "Remon Tamminga":{pr100:"10.25",loc100:"Tilburg",pr500:"37.14",loc500:"Heerenveen",tus100:"10.24",zb25:"-",zb24:"-",zb23:"-",zb22:"-"},
+  "Seb van Schelven":{pr100:"10.16",loc100:"Tilburg",pr500:"37.36",loc500:"Heerenveen",tus100:"10.22",zb25:"-",zb24:"-",zb23:"-",zb22:"-"},
+  "Daan van Zwienen":{pr100:"10.04",loc100:"Heerenveen",pr500:"36.63",loc500:"Heerenveen",tus100:"10.09",zb25:"-",zb24:"22e",zb23:"-",zb22:"-"},
+  "Hannes van De Wetering":{pr100:"10.23",loc100:"Den Haag",pr500:"37.50",loc500:"Enschede",tus100:"10.22",zb25:"-",zb24:"-",zb23:"-",zb22:"-"},
+  "Bjarne den Besten":{pr100:"10.52",loc100:"Den Haag",pr500:"38.25",loc500:"Heerenveen",tus100:"10.60",zb25:"-",zb24:"-",zb23:"-",zb22:"-"},
+  "Floris Hardeveld":{pr100:"9.90",loc100:"Tilburg",pr500:"37.20",loc500:"Heerenveen",tus100:"10.10",zb25:"21e",zb24:"-",zb23:"-",zb22:"-"},
+  "Janno Botman":{pr100:"9.70",loc100:"Leeuwarden",pr500:"34.35",loc500:"SLC",tus100:"9.66",zb25:"7e",zb24:"4e",zb23:"6e",zb22:"-"},
+  "Roel Regts":{pr100:"10.11",loc100:"Tilburg",pr500:"36.65",loc500:"Heerenveen",tus100:"10.03",zb25:"19e",zb24:"-",zb23:"-",zb22:"-"},
+  "Niels de Kruijk":{pr100:"10.15",loc100:"Heerenveen",pr500:"36.80",loc500:"Heerenveen",tus100:"10.08",zb25:"-",zb24:"-",zb23:"-",zb22:"-"}
 };
-function getInfo(naam) {
-  const n = s => s.trim().toLowerCase().replace(/\s+/g,' ');
-  const nm = n(naam);
-  for (const k of Object.keys(INFO)) if (n(k)===nm) return INFO[k];
-  return null;
+function getInfo(n){return INFO[n]||null;}
+const ALLE=()=>[...DEELNEMERS.dames,...DEELNEMERS.heren,...DEELNEMERS.div];
+const SECTIES=[
+  {id:'kids',  label:'DZB KIDS - FINALE',       pill:'pill-kids',  dot:'#b8cce0',type:'rit3',pool:'all'},
+  {id:'ol1d',  label:'OMLOOP 1 - DAMES',        pill:'pill-ol1d',  dot:'#d060a0',type:'rit3',pool:'dames'},
+  {id:'ol1h',  label:'OMLOOP 1 - HEREN',        pill:'pill-ol1h',  dot:'#4a8eca',type:'rit3',pool:'heren'},
+  {id:'mascot',label:'MASCOTTE RACE',            pill:'pill-mascot',dot:'#b07cfc',type:'rit3',pool:'all'},
+  {id:'battle',label:'BATTLE OF DISCIPLINES',   pill:'pill-battle',dot:'#f07040',type:'battle',pool:'all'},
+  {id:'ol2d',  label:'OMLOOP 2 - DAMES',        pill:'pill-ol2d',  dot:'#d060a0',type:'rit3',pool:'dames'},
+  {id:'ol2h',  label:'OMLOOP 2 - HEREN',        pill:'pill-ol2h',  dot:'#4a8eca',type:'rit3',pool:'heren'},
+  {id:'joy',   label:'3KM - JOY & JENNING',     pill:'pill-joy',   dot:'#38c080',type:'rit2',pool:'all'},
+  {id:'hfd',   label:'HALVE FINALE - DAMES',    pill:'pill-hfd',   dot:'#f0c040',type:'rit3',pool:'dames'},
+  {id:'hfh',   label:'HALVE FINALE - HEREN',    pill:'pill-hfh',   dot:'#f0c040',type:'rit3',pool:'heren'},
+  {id:'fnd',   label:'FINALE - DAMES',          pill:'pill-fnd',   dot:'#f0c040',type:'rit3',pool:'dames'},
+  {id:'fnh',   label:'FINALE - HEREN',          pill:'pill-fnh',   dot:'#f0c040',type:'rit3',pool:'heren'},
+];
+const gS=id=>SECTIES.find(s=>s.id===id);
+
+function loadProgramma(){
+  try{const r=localStorage.getItem('dzb_main_p3');if(r)return JSON.parse(r);}catch(e){}
+  return [{sectieId:'kids',riders:[null,null,null],battleInfo:[]},
+          {sectieId:'kids',riders:[null,null,null],battleInfo:[]}];
+}
+function saveProgramma(){localStorage.setItem('dzb_main_p3',JSON.stringify(programma));}
+let programma=loadProgramma(),cur=0;
+const BD=['Wit','Geel','Rood'];
+const BM={Wit:'BINNEN - WIT',Rood:'MIDDEN - ROOD',Geel:'BUITEN - GEEL'};
+
+function riderInfoHTML(naam){
+  const info=getInfo(naam);
+  const isAf=naam&&AFSCHEID.some(n=>naam.toLowerCase().includes(n.toLowerCase()));
+  let h=isAf?'<div class="afscheid-badge">LAATSTE ZILVEREN BAL</div>':'';
+  if(!info)return h+'<div class="no-info">Info volgt</div>';
+  const zb=[{yr:'2025',v:info.zb25},{yr:'2024',v:info.zb24},{yr:'2023',v:info.zb23},{yr:'2022',v:info.zb22}];
+  const zbH=zb.map(z=>'<div class="zb-cell'+(z.v!='-'?' has-result':'')+'"><div class="zb-yr">'+z.yr+'</div><div class="zb-val">'+z.v+'</div></div>').join('');
+  return h+'<div class="info-list">'
+    +'<div class="info-item"><div class="info-lbl">100m PR</div><div class="info-val hi time-val">'+info.pr100+'<span class="time-loc">'+info.loc100+'</span></div></div>'
+    +'<div class="info-item"><div class="info-lbl">500m PR</div><div class="info-val hi time-val">'+info.pr500+'<span class="time-loc">'+info.loc500+'</span></div></div>'
+    +'<div class="info-item"><div class="info-lbl">Opening 100m</div><div class="info-val">'+info.tus100+'</div></div>'
+    +'<div class="info-item"><div class="info-lbl">De Zilveren Bal</div><div class="zb-history">'+zbH+'</div></div>'
+    +'</div>';
 }
 
-// ══ STATE ═════════════════════════════════════════════════════════════════════
-let gender = 'dames';  // 'dames' | 'heren'
-let cur = 0;
-
-// Startlijsten opgeslagen per gender: array van ritten
-// Rit = { omloop, banen: [{naam}x3] }
-// Loaded from localStorage or empty
-function storageKey(g) { return `dzb_main_startlijst_${g}`; }
-
-function loadStartlijst(g) {
-  try {
-    const raw = localStorage.getItem(storageKey(g));
-    if (raw) return JSON.parse(raw);
-  } catch(e) {}
-  return [];
-}
-function saveStartlijst(g, data) {
-  localStorage.setItem(storageKey(g), JSON.stringify(data));
+function colRit3(naam,bi){
+  const b=BD[bi],cls=b.toLowerCase();
+  return '<div class="rider-col">'
+    +'<div class="baan-tag"><div class="baan-bar '+cls+'"></div><span class="baan-lbl '+cls+'">'+BM[b]+'</span></div>'
+    +(naam?'<div class="rider-name">'+naam+'</div>'+riderInfoHTML(naam):'<div class="rider-name empty">Nog niet ingevuld</div>')
+    +'</div>';
 }
 
-let startlijsten = {
-  dames: loadStartlijst('dames'),
-  heren: loadStartlijst('heren')
-};
+function colBattle(naam,bi){
+  const biH=(naam&&bi&&(bi.sport||bi.info))
+    ?'<div>'+(bi.sport?'<div class="battle-info-item"><div class="battle-info-lbl">Discipline</div><div class="battle-info-val">'+bi.sport+'</div></div>':'')
+      +(bi.info?'<div class="battle-info-item"><div class="battle-info-lbl">Info</div><div class="battle-info-val">'+bi.info+'</div></div>':'')+'</div>':'';
+  return '<div class="rider-col">'
+    +'<div style="height:3px;margin-bottom:6px;background:linear-gradient(90deg,var(--c-battle),transparent);border-radius:2px;"></div>'
+    +(naam?'<div class="rider-name">'+naam+'</div>'+biH:'<div class="rider-name empty">Nog niet ingevuld</div>')
+    +'</div>';
+}
 
-function getSL() { return startlijsten[gender]; }
+function colJoy(naam){
+  return '<div class="rider-col">'
+    +'<div class="joy-dist-badge"><div class="joy-dist-num">3KM</div><div class="joy-dist-lbl">afstandsrit</div></div>'
+    +(naam?'<div class="rider-name" style="font-size:22px">'+naam+'</div>'+riderInfoHTML(naam):'<div class="rider-name empty">Nog niet ingevuld</div>')
+    +'</div>';
+}
 
-// ══ VIEW RENDERING ════════════════════════════════════════════════════════════
-const bc = b => b ? b.toLowerCase() : 'wit';
-const baanMap = { Wit:'BINNEN · WIT', Rood:'MIDDEN · ROOD', Geel:'BUITEN · GEEL' };
-const BAANEN = ['Wit','Geel','Rood']; // Display: binnen → buiten → midden (links→rechts)
-// Fields not used directly — see riderColHTML for custom layout
-
-function riderColHTML(naam, baanIdx) {
-  const baan = BAANEN[baanIdx];
-  const cls = bc(baan);
-  const info = naam ? getInfo(naam) : null;
-  const isAfscheid = naam && AFSCHEID.some(n => naam.toLowerCase().includes(n.toLowerCase()));
-  let nameHTML, bodyHTML;
-
-  if (!naam) {
-    nameHTML = `<div class="rider-name-full empty-slot">Nog niet ingevuld</div>`;
-    bodyHTML = '';
+function cardHTML(blok,isCurrent){
+  const s=gS(blok.sectieId),seqNr=programma.indexOf(blok)+1;
+  let body='';
+  if(s.type=='rit2'){
+    body='<div class="card-body">'+colJoy(blok.riders[0])+colJoy(blok.riders[1])+'</div>';
+  } else if(s.type=='battle'){
+    body='<div class="card-body">'+blok.riders.map((n,i)=>colBattle(n,(blok.battleInfo||[])[i])).join('')+'</div>';
   } else {
-    const afscheidBadge = isAfscheid
-      ? `<div class="afscheid-badge">⭐ LAATSTE ZILVEREN BAL</div>`
-      : '';
-    nameHTML = `${afscheidBadge}<div class="rider-name-full">${naam}</div>`;
-    if (info) {
-      // ZB history — only show years with results
-      const zbItems = [
-        { yr:'2025', val:info.zb25 },
-        { yr:'2024', val:info.zb24 },
-        { yr:'2023', val:info.zb23 },
-        { yr:'2022', val:info.zb22 },
-      ];
-      const zbRow = zbItems.map(z =>
-        `<div class="zb-cell ${z.val!=='—'?'has-result':''}">
-          <div class="zb-yr">${z.yr}</div>
-          <div class="zb-val">${z.val}</div>
-        </div>`
-      ).join('');
+    body='<div class="card-body">'+[0,1,2].map(i=>colRit3(blok.riders[i],i)).join('')+'</div>';
+  }
+  return '<div class="rit-card'+(isCurrent?' current':'')+'"><div class="card-header">'
+    +'<div class="card-rit-num">'+seqNr+'</div>'
+    +'<div class="card-meta"><div class="card-tag">'+(isCurrent?'HUIDIG BLOK':'VOLGEND BLOK')+'</div>'
+    +'<div class="card-sub">'+s.label+'</div></div>'
+    +'<div class="sectie-pill '+s.pill+'">'+s.label+'</div></div>'+body+'</div>';
+}
 
-      bodyHTML = `<div class="info-list">
-        <div class="info-item">
-          <div class="info-lbl">100m PR</div>
-          <div class="info-val hi time-val">${info.pr100}<span class="time-loc">${info.loc100}</span></div>
-        </div>
-        <div class="info-item">
-          <div class="info-lbl">500m PR</div>
-          <div class="info-val hi time-val">${info.pr500}<span class="time-loc">${info.loc500}</span></div>
-        </div>
-        <div class="info-item">
-          <div class="info-lbl">Opening 100m (in 500m)</div>
-          <div class="info-val">${info.tus100}</div>
-        </div>
-        <div class="info-item">
-          <div class="info-lbl">De Zilveren Bal — historie</div>
-          <div class="zb-history">${zbRow}</div>
-        </div>
-      </div>`;
+function renderLeft(){
+  if(!programma.length){
+    document.getElementById('slScroll').innerHTML='<div style="padding:18px 11px;font-size:10.5px;color:rgba(200,220,240,.28);font-style:italic;line-height:1.6;">Nog geen programma.<br><br>Klik PROGRAMMA INVULLEN.</div>';
+    return;
+  }
+  let html='',lastId=null;
+  programma.forEach((blok,i)=>{
+    const s=gS(blok.sectieId);
+    if(blok.sectieId!==lastId){
+      html+='<div class="sl-sectie"><div class="sl-sectie-dot" style="background:'+s.dot+'"></div>'
+        +'<span style="color:'+s.dot+';font-size:8.5px">'+s.label+'</span></div>';
+      lastId=blok.sectieId;
+    }
+    const cls=i===cur?'sl-item active':i===cur+1?'sl-item upcoming':'sl-item';
+    let ridersH='';
+    if(s.type=='rit2'){
+      ridersH=blok.riders.slice(0,2).map(n=>'<div class="sl-rider"><div class="dot '+(n?'special':'empty')+'"></div>'+(n||'&mdash;')+'</div>').join('');
     } else {
-      bodyHTML = `<div class="no-info">Nog geen tijden bekend</div>`;
+      ['Wit','Geel','Rood'].forEach((b,bi)=>{
+        const n=blok.riders[bi];
+        ridersH+='<div class="sl-rider"><div class="dot '+(n?b.toLowerCase():'empty')+'"></div>'+(n||'&mdash;')+'</div>';
+      });
     }
-  }
-
-  return `
-    <div class="rider-col">
-      <div class="baan-tag">
-        <div class="baan-bar ${cls}"></div>
-        <span class="baan-lbl ${cls}">${baanMap[baan]}</span>
-      </div>
-      ${nameHTML}${bodyHTML}
-    </div>`;
-}
-
-function cardHTML(rit, isCurrent) {
-  const gLabel = gender === 'dames' ? 'DAMES' : 'HEREN';
-  const cols = rit.banen.map((naam, i) => riderColHTML(naam, i)).join('');
-  return `
-    <div class="rit-card${isCurrent?' current':''}">
-      <div class="card-header">
-        <div class="card-rit-num">${rit.rit}</div>
-        <div class="card-meta">
-          <div class="card-tag">${isCurrent?'HUIDIGE RIT':'VOLGENDE RIT'}</div>
-          <div class="card-sub">${gLabel}</div>
-        </div>
-        <div class="omloop-pill">OMLOOP ${rit.omloop}</div>
-      </div>
-      <div class="card-body">${cols}</div>
-    </div>`;
-}
-
-function renderLeft() {
-  const sl = getSL();
-  if (!sl.length) {
-    document.getElementById('startlistScroll').innerHTML =
-      `<div style="padding:20px 12px;font-size:11px;color:rgba(200,220,240,0.3);font-style:italic;line-height:1.6;">
-        Nog geen startlijst ingevuld.<br><br>
-        Klik op <strong style="color:rgba(200,220,240,0.5)">STARTLIJST INVULLEN</strong> om de ritten samen te stellen.
-      </div>`;
-    return;
-  }
-  let html='', prevOmloop=null;
-  sl.forEach((r,i) => {
-    if (r.omloop !== prevOmloop) {
-      html += `<div class="omloop-header">OMLOOP ${r.omloop}</div>`;
-      prevOmloop = r.omloop;
-    }
-    const cls = i===cur ? 'rit-group active' : i===cur+1 ? 'rit-group upcoming' : 'rit-group';
-    const riders = r.banen.map((n,bi) => {
-      const dc = bc(BAANEN[bi]);
-      return `<div class="rider-tiny"><div class="dot ${n?dc:'empty'}"></div>${n||'—'}</div>`;
-    }).join('');
-    html += `<div class="${cls}" id="ri${i}" onclick="jumpTo(${i})">
-      <div class="rit-label"><span class="rit-num-badge">RIT ${r.rit}</span></div>
-      <div class="rit-riders-compact">${riders}</div>
-    </div>`;
+    html+='<div class="'+cls+'" id="sl'+i+'" onclick="jumpTo('+i+')">'
+      +'<div style="margin-bottom:2px"><span class="sl-num">'+( i+1)+'</span></div>'
+      +'<div class="sl-riders">'+ridersH+'</div></div>';
   });
-  document.getElementById('startlistScroll').innerHTML = html;
+  document.getElementById('slScroll').innerHTML=html;
 }
 
-function renderRight() {
-  const sl = getSL();
-  if (!sl.length) {
-    document.getElementById('ritCards').innerHTML =
-      `<div style="display:flex;align-items:center;justify-content:center;flex:1;flex-direction:column;gap:12px;opacity:0.3;">
-        <div style="font-family:'Bebas Neue',cursive;font-size:28px;letter-spacing:3px;">GEEN STARTLIJST</div>
-        <div style="font-size:13px;">Gebruik "Startlijst invullen" om ritten toe te voegen</div>
-      </div>`;
-    document.getElementById('ritCounter').textContent = '— / —';
-    document.getElementById('btnPrev').disabled = true;
-    document.getElementById('btnNext').disabled = true;
+function renderRight(){
+  if(!programma.length){
+    document.getElementById('ritCards').innerHTML='<div style="display:flex;align-items:center;justify-content:center;flex:1;flex-direction:column;gap:12px;opacity:.25;"><div style="font-family:\'Bebas Neue\',cursive;font-size:24px;letter-spacing:3px;">GEEN PROGRAMMA</div><div style="font-size:12px;">Gebruik Programma invullen</div></div>';
+    document.getElementById('blokCounter').textContent='- / -';
+    document.getElementById('btnPrev').disabled=true;
+    document.getElementById('btnNext').disabled=true;
     return;
   }
-  const c = sl[cur], n = sl[cur+1];
-  document.getElementById('ritCards').innerHTML = cardHTML(c,true) + (n ? cardHTML(n,false) : '');
-  document.getElementById('ritCounter').textContent = `${c.rit} / ${sl.length}`;
-  document.getElementById('btnPrev').disabled = cur===0;
-  document.getElementById('btnNext').disabled = cur===sl.length-1;
+  const c=programma[cur],n=programma[cur+1];
+  document.getElementById('ritCards').innerHTML=cardHTML(c,true)+(n?cardHTML(n,false):'');
+  document.getElementById('blokCounter').textContent=(cur+1)+' / '+programma.length;
+  document.getElementById('btnPrev').disabled=cur===0;
+  document.getElementById('btnNext').disabled=cur>=programma.length-1;
 }
 
-function render() {
-  renderLeft(); renderRight();
-  document.getElementById(`ri${cur}`)?.scrollIntoView({behavior:'smooth',block:'nearest'});
+function render(){
+  renderLeft();renderRight();
+  const el=document.getElementById('sl'+cur);
+  if(el)el.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
+function navigate(dir){const n=cur+dir;if(n>=0&&n<programma.length){cur=n;render();}}
+function jumpTo(i){cur=i;render();}
 
-function navigate(dir) {
-  const sl = getSL();
-  const n = cur+dir;
-  if (n>=0 && n<sl.length) { cur=n; render(); }
+let edProg=[],poolTab='dames';
+function setMode(mode){
+  document.getElementById('btnView').classList.toggle('active',mode==='view');
+  document.getElementById('btnEdit').classList.toggle('active',mode==='edit');
+  if(mode==='edit')openEditor();
 }
-function jumpTo(i) { cur=i; render(); }
-
-function setGender(g) {
-  gender = g;
-  cur = 0;
-  document.getElementById('btnDames').classList.toggle('active', g==='dames');
-  document.getElementById('btnHeren').classList.toggle('active', g==='heren');
-  render();
-}
-
-// ══ EDITOR ════════════════════════════════════════════════════════════════════
-let editorRitten = []; // working copy while editing
-
-function setMode(mode) {
-  document.getElementById('btnView').classList.toggle('active', mode==='view');
-  document.getElementById('btnEdit').classList.toggle('active', mode==='edit');
-  if (mode === 'edit') openEditor();
-}
-
-function openEditor() {
-  // Deep copy current startlijst for editing
-  editorRitten = JSON.parse(JSON.stringify(getSL()));
-  if (!editorRitten.length) {
-    // Start with one empty omloop
-    addEditorOmloop(1);
-  }
-  document.getElementById('editorGenderTitle').textContent = gender === 'dames' ? 'Dames' : 'Heren';
-  renderEditor();
+function openEditor(){
+  edProg=JSON.parse(JSON.stringify(programma));
+  renderEditorContent();renderPoolList();
   document.getElementById('editorOverlay').classList.add('open');
 }
-
-function closeEditor() {
+function closeEditor(){
   document.getElementById('editorOverlay').classList.remove('open');
-  setMode('view');
   document.getElementById('btnView').classList.add('active');
   document.getElementById('btnEdit').classList.remove('active');
 }
-
-function saveAndClose() {
-  startlijsten[gender] = JSON.parse(JSON.stringify(editorRitten));
-  saveStartlijst(gender, startlijsten[gender]);
-  cur = 0;
-  closeEditor();
-  render();
+function saveAndClose(){
+  programma=JSON.parse(JSON.stringify(edProg));
+  saveProgramma();
+  cur=Math.min(cur,Math.max(0,programma.length-1));
+  closeEditor();render();
 }
-
-function addEditorOmloop(omloop) {
-  // Find how many ritten already in this omloop
-  const existing = editorRitten.filter(r => r.omloop === omloop);
-  const ritNr = editorRitten.length + 1;
-  editorRitten.push({ rit: ritNr, omloop, banen: [null, null, null] });
-}
-
-function addRit(omloop) {
-  const allRitNrs = editorRitten.map(r => r.rit);
-  const maxRit = allRitNrs.length ? Math.max(...allRitNrs) : 0;
-  editorRitten.push({ rit: maxRit+1, omloop, banen: [null,null,null] });
-  renderEditor();
-}
-
-function removeRit(idx) {
-  editorRitten.splice(idx, 1);
-  // Renumber
-  editorRitten.forEach((r,i) => r.rit = i+1);
-  renderEditor();
-}
-
-function setSlot(ritIdx, baanIdx, naam) {
-  editorRitten[ritIdx].banen[baanIdx] = naam || null;
+function setPoolTab(t){
+  poolTab=t;
+  ['ptDames','ptHeren','ptDiv'].forEach(id=>document.getElementById(id).classList.remove('active'));
+  document.getElementById(t==='dames'?'ptDames':t==='heren'?'ptHeren':'ptDiv').classList.add('active');
   renderPoolList();
 }
-
-function getUsedNames() {
-  const used = new Set();
-  editorRitten.forEach(r => r.banen.forEach(n => { if(n) used.add(n); }));
-  return used;
+function getUsedNames(){
+  const u=new Set();edProg.forEach(b=>b.riders.forEach(n=>{if(n)u.add(n);}));return u;
 }
-
-function renderPoolList() {
-  const used = getUsedNames();
-  const deelnemers = DEELNEMERS[gender];
-  let html = '';
-  deelnemers.forEach(naam => {
-    const isUsed = used.has(naam);
-    html += `<div class="pool-rider${isUsed?' used':''}">
-      ${naam}
-      ${isUsed ? `<span class="used-badge">✓ ingepland</span>` : ''}
-    </div>`;
-  });
-  document.getElementById('poolList').innerHTML = html;
-  document.getElementById('poolHeader').textContent =
-    `DEELNEMERS (${used.size}/${deelnemers.length})`;
+function renderPoolList(){
+  const used=getUsedNames();
+  const pool=poolTab==='div'?DEELNEMERS.div:DEELNEMERS[poolTab];
+  document.getElementById('poolList').innerHTML=pool.map(n=>{
+    const isUsed=used.has(n);
+    return '<div class="pool-rider'+(isUsed?' used':'')+'">'+n+(isUsed?'<span class="pool-used-badge">'+String.fromCharCode(10003)+'</span>':'')+'</div>';
+  }).join('');
 }
-
-function renderEditor() {
-  const deelnemers = DEELNEMERS[gender];
-  const used = getUsedNames();
-
-  // Build options HTML
-  const opts = `<option value="">— Kies rijder —</option>` +
-    deelnemers.map(n =>
-      `<option value="${n}">${n}</option>`
-    ).join('');
-
-  // Group by omloop
-  const omlopen = [...new Set(editorRitten.map(r => r.omloop))].sort((a,b) => a-b);
-  const maxOmloop = omlopen.length ? Math.max(...omlopen) : 1;
-
-  let html = '';
-  omlopen.forEach(omloop => {
-    html += `<div class="editor-omloop-title">OMLOOP ${omloop}</div>`;
-    editorRitten.forEach((r, i) => {
-      if (r.omloop !== omloop) return;
-      const slots = BAANEN.map((baan, bi) => {
-        const cls = bc(baan);
-        const selected = r.banen[bi] || '';
-        return `<div class="editor-slot">
-          <div class="slot-baan-label">
-            <div class="slot-dot ${cls}"></div>
-            <span class="slot-label-txt ${cls}">${baan.toUpperCase()}</span>
-          </div>
-          <select class="slot-select" onchange="setSlot(${i},${bi},this.value)">
-            ${deelnemers.map(n =>
-              `<option value="${n}" ${n===selected?'selected':''}>${n}</option>`
-            ).join('')}
-            <option value="" ${!selected?'selected':''}>— leeg —</option>
-          </select>
-        </div>`;
-      }).join('');
-      html += `<div class="editor-rit-row">
-        <div class="editor-rit-num">${r.rit}</div>
-        <div class="editor-slots">${slots}</div>
-        <button class="editor-rit-del" onclick="removeRit(${i})" title="Rit verwijderen">✕</button>
-      </div>`;
+function getPoolForSectie(sid){
+  const s=gS(sid);
+  if(s.pool==='dames')return DEELNEMERS.dames;
+  if(s.pool==='heren')return DEELNEMERS.heren;
+  return ALLE();
+}
+function addBlok(sid){
+  const s=gS(sid);
+  const slots=s.type==='rit2'?2:3;
+  const nb={sectieId:sid,riders:Array(slots).fill(null),
+    battleInfo:sid==='battle'?Array(slots).fill({sport:'',info:''}):[]};
+  let lastIdx=-1;
+  edProg.forEach((b,i)=>{if(b.sectieId===sid)lastIdx=i;});
+  if(lastIdx>=0)edProg.splice(lastIdx+1,0,nb);
+  else edProg.push(nb);
+  renderEditorContent();renderPoolList();
+}
+function removeBlok(i){edProg.splice(i,1);renderEditorContent();renderPoolList();}
+function setRider(bi,si,naam){edProg[bi].riders[si]=naam||null;renderPoolList();}
+function setBattleInfo(bi,si,field,val){
+  if(!edProg[bi].battleInfo)edProg[bi].battleInfo=[];
+  if(!edProg[bi].battleInfo[si])edProg[bi].battleInfo[si]={};
+  edProg[bi].battleInfo[si][field]=val;
+}
+function renderEditorContent(){
+  let html='';
+  SECTIES.forEach(sectie=>{
+    const blokkens=edProg.map((b,i)=>({b,i})).filter(x=>x.b.sectieId===sectie.id);
+    html+='<div class="ed-sectie-hdr" style="color:'+sectie.dot+'">'
+      +'<div class="ed-sectie-dot" style="background:'+sectie.dot+'"></div>'+sectie.label+'</div>';
+    blokkens.forEach(function(x){
+      const b=x.b,i=x.i;
+      const pool=getPoolForSectie(sectie.id);
+      let slotsH='';
+      if(sectie.type==='battle'){
+        slotsH=[0,1,2].map(function(si){
+          const bi=b.battleInfo&&b.battleInfo[si]?b.battleInfo[si]:{sport:'',info:''};
+          const opts='<option value="">leeg</option>'+ALLE().map(n=>'<option value="'+n+'"'+(b.riders[si]===n?' selected':'')+'>'+n+'</option>').join('');
+          return '<div class="ed-slot" style="min-width:130px">'
+            +'<div class="slot-lbl"><span style="color:var(--c-battle)">RIJDER '+(si+1)+'</span></div>'
+            +'<select class="slot-sel" style="border-color:rgba(240,112,64,.2)" onchange="setRider('+i+','+si+',this.value)">'+opts+'</select>'
+            +'<div class="bi-row"><div class="bi-lbl">Discipline</div>'
+            +'<input class="bi-inp" type="text" placeholder="bijv. Wielrennen" value="'+(bi.sport||'')+'" oninput="setBattleInfo('+i+','+si+',\'sport\',this.value)"/></div>'
+            +'<div class="bi-row"><div class="bi-lbl">Info</div>'
+            +'<input class="bi-inp" type="text" placeholder="extra info" value="'+(bi.info||'')+'" oninput="setBattleInfo('+i+','+si+',\'info\',this.value)"/></div>'
+            +'</div>';
+        }).join('');
+      } else if(sectie.type==='rit2'){
+        slotsH=[0,1].map(function(si){
+          const opts='<option value="">leeg</option>'+ALLE().map(n=>'<option value="'+n+'"'+(b.riders[si]===n?' selected':'')+'>'+n+'</option>').join('');
+          return '<div class="ed-slot"><div class="slot-lbl"><span style="color:var(--c-joy)">RIJDER '+(si+1)+'</span></div>'
+            +'<select class="slot-sel" style="border-color:rgba(56,192,96,.2)" onchange="setRider('+i+','+si+',this.value)">'+opts+'</select></div>';
+        }).join('');
+      } else {
+        const baanDefs=[{cls:'wit',lbl:'WIT'},{cls:'geel',lbl:'GEEL'},{cls:'rood',lbl:'ROOD'}];
+        slotsH=baanDefs.map(function(bd,si){
+          const opts='<option value="">leeg</option>'+pool.map(n=>'<option value="'+n+'"'+(b.riders[si]===n?' selected':'')+'>'+n+'</option>').join('');
+          return '<div class="ed-slot"><div class="slot-lbl"><div class="sd '+bd.cls+'"></div><span class="st-'+bd.cls+'">'+bd.lbl+'</span></div>'
+            +'<select class="slot-sel" onchange="setRider('+i+','+si+',this.value)">'+opts+'</select></div>';
+        }).join('');
+      }
+      html+='<div class="ed-rit-row"><div class="ed-rit-num">'+(i+1)+'</div>'
+        +'<div class="ed-slots">'+slotsH+'</div>'
+        +'<button class="ed-del" onclick="removeBlok('+i+')" title="Verwijder">'+String.fromCharCode(10005)+'</button></div>';
     });
-    html += `<div class="editor-add-rit" onclick="addRit(${omloop})">+ RIT TOEVOEGEN AAN OMLOOP ${omloop}</div>`;
+    html+='<div class="ed-add" onclick="addBlok(\''+sectie.id+'\')">+ BLOK TOEVOEGEN</div>';
   });
-
-  // Add omloop 2 button if only omloop 1 exists
-  if (!omlopen.includes(2)) {
-    html += `<div class="editor-add-rit" onclick="addRit(2)" style="border-color:rgba(240,192,64,0.2);color:rgba(240,192,64,0.5);">
-      + OMLOOP 2 STARTEN
-    </div>`;
+  document.getElementById('editorContent').innerHTML=html;
+}
+function openAankondiging(type){
+  const card=document.getElementById('aankCard');
+  const inner=document.getElementById('aankInner');
+  if(type==='battle'){
+    card.className='aank-card battle-bg';
+    inner.innerHTML='<div class="b-emoji">'+String.fromCodePoint(0x2694)+String.fromCodePoint(0xFE0F)+'</div>'
+      +'<div class="b-title">BATTLE OF<br>DISCIPLINES</div>'
+      +'<div class="b-div"></div><div class="b-sub">Na omloop 1</div>';
+  } else {
+    card.className='aank-card driekm-bg';
+    inner.innerHTML='<div class="d-emoji">'+String.fromCodePoint(0x1F3C1)+'</div>'
+      +'<div class="d-dist">3KM</div>'
+      +'<div class="d-lbl">AFSTANDSRIT</div>'
+      +'<div class="d-div"></div>'
+      +'<div class="d-names">Joy & Jenning</div>'
+      +'<div class="d-when">Na omloop 2</div>';
   }
-
-  document.getElementById('editorRitten').innerHTML = html;
-  renderPoolList();
+  document.getElementById('aankOverlay').classList.add('open');
 }
-
-// ══ ZOOM ══════════════════════════════════════════════════════════════════════
-let zoomLevel = parseInt(localStorage.getItem('dzb_zoom') || '100');
-const ZP = [{id:'zp-s',val:75},{id:'zp-m',val:90},{id:'zp-l',val:100}];
-// ── AANKONDIGINGEN ───────────────────────────────────────────────────────────
-const AANKONDIGINGEN = {
-  battle: {
-    cardClass: 'battle-card',
-    html: `
-      <div class="battle-emoji">⚔️</div>
-      <div class="battle-title">BATTLE OF<br>DISCIPLINES</div>
-      <div class="battle-divider"></div>
-      <div class="battle-subtitle">Na omloop 1</div>
-      <div class="battle-when">PROGRAMMA TUSSENDOOR</div>
-    `
-  },
-  driekm: {
-    cardClass: 'driekm-card',
-    html: `
-      <div class="driekm-emoji">🏁</div>
-      <div class="driekm-dist">3KM</div>
-      <div class="driekm-label">AFSTANDSRIT</div>
-      <div class="driekm-divider"></div>
-      <div class="driekm-names">Jenning & Joy</div>
-      <div class="driekm-when">Na omloop 2</div>
-    `
-  },
-};
-
-function openAankondiging(type) {
-  const a = AANKONDIGINGEN[type];
-  const card = document.getElementById('aankondigingCard');
-  const inner = document.getElementById('aankondigingInner');
-  card.className = 'aankondiging-card ' + a.cardClass;
-  inner.innerHTML = a.html;
-  document.getElementById('aankondigingOverlay').classList.add('open');
-}
-function closeAankondiging() {
-  document.getElementById('aankondigingOverlay').classList.remove('open');
-}
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeAankondiging();
+function closeAankondiging(){document.getElementById('aankOverlay').classList.remove('open');}
+document.addEventListener('keydown',function(e){
+  if(document.getElementById('aankOverlay').classList.contains('open')){
+    if(e.key==='Escape')closeAankondiging();return;
+  }
+  if(document.getElementById('editorOverlay').classList.contains('open'))return;
+  if(e.key==='ArrowRight')navigate(1);
+  if(e.key==='ArrowLeft')navigate(-1);
+  if(e.key==='+'||e.key==='=')changeZoom(+5);
+  if(e.key==='-')changeZoom(-5);
 });
-
-function applyZoom() {
-  document.documentElement.style.zoom = zoomLevel + '%';
-  document.getElementById('zoomPct').textContent = zoomLevel + '%';
-  localStorage.setItem('dzb_zoom', zoomLevel);
-  ZP.forEach(p => document.getElementById(p.id).classList.toggle('active', p.val===zoomLevel));
+let zoomLevel=parseInt(localStorage.getItem('dzb_zoom')||'100');
+const ZPS=[{id:'zp-s',val:75},{id:'zp-m',val:90},{id:'zp-l',val:100}];
+function applyZoom(){
+  document.documentElement.style.zoom=zoomLevel+'%';
+  document.getElementById('zoomPct').textContent=zoomLevel+'%';
+  localStorage.setItem('dzb_zoom',zoomLevel);
+  ZPS.forEach(p=>document.getElementById(p.id).classList.toggle('active',p.val===zoomLevel));
 }
-function changeZoom(d) { zoomLevel=Math.min(130,Math.max(60,zoomLevel+d)); applyZoom(); }
-function setZoom(v) { zoomLevel=v; applyZoom(); }
-
-let tileZoom = parseInt(localStorage.getItem('dzb_tile_zoom') || '100');
-function applyTileZoom() {
-  const inner = document.getElementById('tileZoomInner');
-  if (!inner) return;
-  const s = tileZoom/100;
-  inner.style.transform = `scale(${s})`;
-  inner.style.width  = (100/s)+'%';
-  inner.style.height = (100/s)+'%';
-  document.getElementById('tileZoomPct').textContent = tileZoom+'%';
-  localStorage.setItem('dzb_tile_zoom', tileZoom);
+function changeZoom(d){zoomLevel=Math.min(130,Math.max(60,zoomLevel+d));applyZoom();}
+function setZoom(v){zoomLevel=v;applyZoom();}
+let tileZoom=parseInt(localStorage.getItem('dzb_tile_zoom')||'100');
+function applyTileZoom(){
+  const el=document.getElementById('tileZoomInner');if(!el)return;
+  const s=tileZoom/100;
+  el.style.transform='scale('+s+')';
+  el.style.width=(100/s)+'%';
+  el.style.height=(100/s)+'%';
+  document.getElementById('tileZoomPct').textContent=tileZoom+'%';
+  localStorage.setItem('dzb_tile_zoom',tileZoom);
 }
-function changeTileZoom(d) { tileZoom=Math.min(150,Math.max(60,tileZoom+d)); applyTileZoom(); }
-
-// ══ KEYBOARD ══════════════════════════════════════════════════════════════════
-document.addEventListener('keydown', e => {
-  if (document.getElementById('editorOverlay').classList.contains('open')) return;
-  if (e.key==='ArrowRight') navigate(1);
-  if (e.key==='ArrowLeft')  navigate(-1);
-  if (e.key==='+' || e.key==='=') changeZoom(+5);
-  if (e.key==='-') changeZoom(-5);
-});
-
-// ══ INIT ══════════════════════════════════════════════════════════════════════
-applyZoom();
-applyTileZoom();
-render();
+function changeTileZoom(d){tileZoom=Math.min(150,Math.max(60,tileZoom+d));applyTileZoom();}
+applyZoom();applyTileZoom();render();
 </script>
-
-<!-- AANKONDIGING OVERLAY -->
-<div class="aankondiging-overlay" id="aankondigingOverlay" onclick="closeAankondiging()">
-  <div class="aankondiging-card battle-card" id="aankondigingCard">
-    <div class="aankondiging-inner" id="aankondigingInner"></div>
-    <div class="aankondiging-close">Klik om te sluiten</div>
-  </div>
-</div>
-
 </body>
 </html>
